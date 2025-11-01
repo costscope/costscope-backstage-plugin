@@ -1,0 +1,10 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { ActionItemsPanel } from './ActionItemsPanel';
+declare const meta: Meta<typeof ActionItemsPanel>;
+export default meta;
+type Story = StoryObj<typeof ActionItemsPanel>;
+export declare const Default: Story;
+export declare const Loading: Story;
+export declare const ErrorState: Story;
+export declare const Empty: Story;
+export declare const HighContrast: Story;

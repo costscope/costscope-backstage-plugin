@@ -1,0 +1,70 @@
+name: Deploy static demo (GitHub Pages)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "examples/minimal-app/**"
+      - "packages/plugin/**"
+      - ".github/workflows/pages-demo.yml"
+      - "package.json"
+      - "yarn.lock"
+      - "docs/demo.md"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  noop-act:
+    if: ${{ github.actor == 'nektos/act' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: noop (act)
+        run: echo "Skipping Pages demo under act; deploy-pages service not available."
+
+  build:
+    if: ${{ github.actor != 'nektos/act' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build static demo (mock mode) with repo-relative base
+        run: |
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          echo "Using base path: /${REPO_NAME}/minimal/"
+          VITE_DEMO_MODE=mock yarn workspace @examples/minimal-app vite build --base="/${REPO_NAME}/minimal/"
+          node examples/minimal-app/scripts/postbuild-pages.mjs
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: examples/minimal-app/dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.actor != 'nektos/act' }}
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

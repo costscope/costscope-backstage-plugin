@@ -1,0 +1,44 @@
+{
+  "name": "costscope-plugin-dev",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.formatOnSave": true,
+        "files.eol": "\n",
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "eslint.useFlatConfig": true
+      },
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "github.copilot",
+        "github.vscode-github-actions"
+      ]
+    }
+  },
+  "remoteEnv": {
+    "NODE_OPTIONS": "--max_old_space_size=4096",
+    "PLAYWRIGHT_BROWSERS": "chromium",
+    "PW_HEADFUL": "0"
+  },
+  "forwardPorts": [3000, 6006, 7007, 7100],
+  // Explicit host->container port mapping to keep host URL stable (host:3001 -> container:3000)
+  // "runArgs": ["-p", "3000:3000"],
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "hostRequirements": {
+    "cpus": 2,
+    "memory": "4gb"
+  },
+  "mounts": [
+    "source=devcontainer-yarn-cache,target=/home/node/.cache/yarn,type=volume",
+    "source=devcontainer-playwright-cache,target=/home/node/.cache/ms-playwright,type=volume"
+  ]
+}

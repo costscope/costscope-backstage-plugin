@@ -1,0 +1,184 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChargeCategoryDonut renders data 1`] = `
+<div
+  aria-labelledby="costscope-charge-donut-heading"
+  class="MuiStack-root css-jfdv4h-MuiStack-root"
+  role="region"
+>
+  <div
+    class="MuiStack-root css-1jv2z0n-MuiStack-root"
+  >
+    <h2
+      class="MuiTypography-root MuiTypography-h6 css-1i29sir-MuiTypography-root"
+      id="costscope-charge-donut-heading"
+    >
+      Charge Categories
+    </h2>
+    <button
+      aria-label="Refresh charge categories data"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-asjnmr-MuiButtonBase-root-MuiIconButton-root"
+      data-testid="charge-donut-refresh"
+      tabindex="0"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.75-6h-2.1A6 6 0 1112 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+        />
+      </svg>
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+  <span
+    id="costscope-charge-donut-desc"
+    style="border: 0px; height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;"
+  >
+    Donut chart showing cost share by charge category. Legend lists categories with their absolute cost and percent delta.
+  </span>
+  <figure
+    aria-describedby="costscope-charge-donut-desc"
+    aria-labelledby="costscope-charge-donut-heading"
+    style="margin: 0px;"
+  >
+    <div
+      data-mock="chart"
+    >
+      <div>
+        <div>
+          <div />
+          <div />
+        </div>
+        <div />
+        <div />
+      </div>
+    </div>
+  </figure>
+</div>
+`;
+
+exports[`ChargeCategoryDonut renders empty 1`] = `
+<div
+  aria-labelledby="costscope-charge-donut-heading"
+  class="MuiStack-root css-jfdv4h-MuiStack-root"
+  role="region"
+>
+  <div
+    class="MuiStack-root css-1jv2z0n-MuiStack-root"
+  >
+    <h2
+      class="MuiTypography-root MuiTypography-h6 css-1i29sir-MuiTypography-root"
+      id="costscope-charge-donut-heading"
+    >
+      Charge Categories
+    </h2>
+    <button
+      aria-label="Refresh charge categories data"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-asjnmr-MuiButtonBase-root-MuiIconButton-root"
+      data-testid="charge-donut-refresh"
+      tabindex="0"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.75-6h-2.1A6 6 0 1112 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+        />
+      </svg>
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+  <div
+    class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1v5z4dq-MuiPaper-root-MuiCard-root"
+  >
+    <div
+      class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+    >
+      <div
+        class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-h5 MuiCardHeader-title css-1qvr50w-MuiTypography-root"
+        >
+          No data
+        </span>
+      </div>
+    </div>
+    <div
+      class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+      >
+        No charge categories for selected period
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ChargeCategoryDonut renders error 1`] = `
+<div
+  class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1v5z4dq-MuiPaper-root-MuiCard-root"
+>
+  <div
+    class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+  >
+    <div
+      class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+    >
+      <span
+        class="MuiTypography-root MuiTypography-h5 MuiCardHeader-title css-1qvr50w-MuiTypography-root"
+      >
+        Error
+      </span>
+    </div>
+  </div>
+  <div
+    class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+  >
+    <div
+      class="MuiStack-root css-1sazv7p-MuiStack-root"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-1nkhxq8-MuiTypography-root"
+      >
+        Failed to load charge categories.
+      </p>
+      <button
+        aria-label="Refresh charge categories data"
+        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1d97c9r-MuiButtonBase-root-MuiIconButton-root"
+        tabindex="0"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.75-6h-2.1A6 6 0 1112 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+          />
+        </svg>
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;

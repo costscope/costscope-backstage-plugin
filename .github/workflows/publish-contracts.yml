@@ -1,0 +1,75 @@
+name: Publish Contracts
+
+on:
+  push:
+    tags:
+      - "contracts-v*"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run (use npm pack instead of publish)"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  noop-act:
+    if: ${{ github.actor == 'nektos/act' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: noop (act)
+        run: echo "Skipping publish-contracts under act; requires npm token and provenance on GH runners."
+
+  publish:
+    runs-on: ubuntu-latest
+    if: ${{ github.actor != 'nektos/act' }}
+    permissions:
+      contents: read
+      packages: write # required to publish @costscope/contracts to npm
+      id-token: write # enable npm provenance via OIDC
+    defaults:
+      run:
+        working-directory: ./packages/contracts
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install deps (frozen)
+        run: |
+          cd ../../
+          yarn install --immutable
+
+      - name: Build contracts
+        run: |
+          cd ../../
+          yarn workspace @costscope/contracts build
+          yarn workspace @costscope/contracts spec:hash
+
+      - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          PUBLISH_DRY_RUN: ${{ vars.PUBLISH_DRY_RUN }}
+          DISPATCH_DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          if { [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${DISPATCH_DRY_RUN}" = "true" ]; } || [ "${PUBLISH_DRY_RUN}" = "true" ]; then
+            echo "DRY RUN: creating npm tarball (npm pack) instead of publishing @costscope/contracts"
+            npm pack
+            exit 0
+          fi
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          echo "Publishing @costscope/contracts@$PACKAGE_VERSION (with provenance)"
+          npm publish --provenance --access public
+
+      - name: Tag validation note
+        if: always()
+        run: |
+          echo "Published @costscope/contracts. Ensure CHANGELOG updated for version tag ${GITHUB_REF#refs/tags/}."

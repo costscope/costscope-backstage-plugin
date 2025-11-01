@@ -1,0 +1,289 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CostSummaryHeader renders data 1`] = `
+<div
+  aria-labelledby="costscope-summary-header-heading"
+  class="MuiStack-root css-jfdv4h-MuiStack-root"
+  role="region"
+>
+  <div
+    class="MuiStack-root css-1jv2z0n-MuiStack-root"
+  >
+    <h2
+      class="MuiTypography-root MuiTypography-h6 css-1i29sir-MuiTypography-root"
+      id="costscope-summary-header-heading"
+    >
+      Summary & Top Services
+    </h2>
+    <button
+      aria-label="Refresh summary and top services"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-asjnmr-MuiButtonBase-root-MuiIconButton-root"
+      tabindex="0"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.75-6h-2.1A6 6 0 1112 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+        />
+      </svg>
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+  <div
+    class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1v5z4dq-MuiPaper-root-MuiCard-root"
+  >
+    <div
+      class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+    >
+      <div
+        class="MuiStack-root css-1hkyvfl-MuiStack-root"
+      >
+        <div>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-1sn4lm3-MuiTypography-root"
+          >
+            Total
+          </span>
+          <h5
+            class="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root"
+          >
+            $1,000.00
+          </h5>
+        </div>
+        <div>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-1sn4lm3-MuiTypography-root"
+          >
+            Δ %
+          </span>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-1nkhxq8-MuiTypography-root"
+          >
+            11.1%
+          </p>
+        </div>
+        <div>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-1sn4lm3-MuiTypography-root"
+          >
+            Avg Daily
+          </span>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+          >
+            $142.86
+          </p>
+        </div>
+        <div>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-1sn4lm3-MuiTypography-root"
+          >
+            Top Service
+          </span>
+          <div
+            class="MuiStack-root css-kdc3n8-MuiStack-root"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+            >
+              Compute
+            </p>
+            <div
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-v01tjm-MuiChip-root"
+            >
+              <span
+                class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+              >
+                $400.00
+              </span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-1sn4lm3-MuiTypography-root"
+          >
+            Top Share
+          </span>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+          >
+            40.0%
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CostSummaryHeader renders empty breakdown gracefully 1`] = `
+<div
+  aria-labelledby="costscope-summary-header-heading"
+  class="MuiStack-root css-jfdv4h-MuiStack-root"
+  role="region"
+>
+  <div
+    class="MuiStack-root css-1jv2z0n-MuiStack-root"
+  >
+    <h2
+      class="MuiTypography-root MuiTypography-h6 css-1i29sir-MuiTypography-root"
+      id="costscope-summary-header-heading"
+    >
+      Summary & Top Services
+    </h2>
+    <button
+      aria-label="Refresh summary and top services"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-asjnmr-MuiButtonBase-root-MuiIconButton-root"
+      tabindex="0"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.75-6h-2.1A6 6 0 1112 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+        />
+      </svg>
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+  <div
+    class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1v5z4dq-MuiPaper-root-MuiCard-root"
+  >
+    <div
+      class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+    >
+      <div
+        class="MuiStack-root css-1hkyvfl-MuiStack-root"
+      >
+        <div>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-1sn4lm3-MuiTypography-root"
+          >
+            Total
+          </span>
+          <h5
+            class="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root"
+          >
+            $0.00
+          </h5>
+        </div>
+        <div>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-1sn4lm3-MuiTypography-root"
+          >
+            Δ %
+          </span>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-1gqyz35-MuiTypography-root"
+          >
+            0.0%
+          </p>
+        </div>
+        <div>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-1sn4lm3-MuiTypography-root"
+          >
+            Avg Daily
+          </span>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+          >
+            $0.00
+          </p>
+        </div>
+        <div>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-1sn4lm3-MuiTypography-root"
+          >
+            Top Service
+          </span>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-1a64wrg-MuiTypography-root"
+          >
+            —
+          </p>
+        </div>
+        <div>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-1sn4lm3-MuiTypography-root"
+          >
+            Top Share
+          </span>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+          >
+            0.0%
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CostSummaryHeader renders error 1`] = `
+<div
+  class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1v5z4dq-MuiPaper-root-MuiCard-root"
+>
+  <div
+    class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+  >
+    <div
+      class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+    >
+      <span
+        class="MuiTypography-root MuiTypography-h5 MuiCardHeader-title css-1qvr50w-MuiTypography-root"
+      >
+        Error
+      </span>
+    </div>
+  </div>
+  <div
+    class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+  >
+    <div
+      class="MuiStack-root css-1sazv7p-MuiStack-root"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-1nkhxq8-MuiTypography-root"
+      >
+        Failed to load data. Please retry.
+      </p>
+      <button
+        aria-label="Refresh summary and top services"
+        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1d97c9r-MuiButtonBase-root-MuiIconButton-root"
+        tabindex="0"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.75-6h-2.1A6 6 0 1112 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+          />
+        </svg>
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;

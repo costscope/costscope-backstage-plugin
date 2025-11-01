@@ -1,0 +1,257 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CostDriversCard renders data 1`] = `
+<div>
+  <div
+    aria-labelledby="costscope-drivers-heading"
+    class="MuiStack-root css-jfdv4h-MuiStack-root"
+    role="region"
+  >
+    <div
+      class="MuiStack-root css-1jv2z0n-MuiStack-root"
+    >
+      <h2
+        class="MuiTypography-root MuiTypography-h6 css-1i29sir-MuiTypography-root"
+        id="costscope-drivers-heading"
+      >
+        Cost Drivers
+      </h2>
+      <button
+        aria-label="Refresh cost drivers"
+        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-asjnmr-MuiButtonBase-root-MuiIconButton-root"
+        data-testid="drivers-refresh"
+        tabindex="0"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.75-6h-2.1A6 6 0 1112 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+          />
+        </svg>
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+    </div>
+    <div
+      class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiTableContainer-root css-h2cton-MuiPaper-root-MuiTableContainer-root"
+    >
+      <table
+        aria-label="Top cost drivers table"
+        class="MuiTable-root css-rqglhn-MuiTable-root"
+      >
+        <caption
+          id="costscope-drivers-caption"
+          style="border: 0px; height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;"
+        >
+          Table listing top cost drivers (dimension, cost and percent change).
+        </caption>
+        <thead
+          class="MuiTableHead-root css-15wwp11-MuiTableHead-root"
+        >
+          <tr
+            class="MuiTableRow-root MuiTableRow-head css-8fjjvq-MuiTableRow-root"
+          >
+            <th
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+              scope="col"
+            >
+              ServiceCategory
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall css-6qfsqn-MuiTableCell-root"
+              scope="col"
+            >
+              Cost
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall css-6qfsqn-MuiTableCell-root"
+              scope="col"
+            >
+              Δ %
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          class="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+        >
+          <tr
+            class="MuiTableRow-root MuiTableRow-hover css-8fjjvq-MuiTableRow-root"
+          >
+            <th
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+              scope="row"
+            >
+              Compute
+            </th>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall css-dv0mq-MuiTableCell-root"
+            >
+              $1,000.00
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall css-jecb9j-MuiTableCell-root"
+            >
+              10.0%
+            </td>
+          </tr>
+          <tr
+            class="MuiTableRow-root MuiTableRow-hover css-8fjjvq-MuiTableRow-root"
+          >
+            <th
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+              scope="row"
+            >
+              Storage
+            </th>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall css-dv0mq-MuiTableCell-root"
+            >
+              $500.00
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall css-jrxnt8-MuiTableCell-root"
+            >
+              -5.0%
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CostDriversCard renders empty state 1`] = `
+<div>
+  <div
+    aria-labelledby="costscope-drivers-heading"
+    class="MuiStack-root css-jfdv4h-MuiStack-root"
+    role="region"
+  >
+    <div
+      class="MuiStack-root css-1jv2z0n-MuiStack-root"
+    >
+      <h2
+        class="MuiTypography-root MuiTypography-h6 css-1i29sir-MuiTypography-root"
+        id="costscope-drivers-heading"
+      >
+        Cost Drivers
+      </h2>
+      <button
+        aria-label="Refresh cost drivers"
+        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-asjnmr-MuiButtonBase-root-MuiIconButton-root"
+        data-testid="drivers-refresh"
+        tabindex="0"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.75-6h-2.1A6 6 0 1112 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+          />
+        </svg>
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+    </div>
+    <div
+      class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1v5z4dq-MuiPaper-root-MuiCard-root"
+    >
+      <div
+        class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+      >
+        <div
+          class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+        >
+          <span
+            class="MuiTypography-root MuiTypography-h5 MuiCardHeader-title css-1qvr50w-MuiTypography-root"
+          >
+            No data
+          </span>
+        </div>
+      </div>
+      <div
+        class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+        >
+          No cost drivers for selected period
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CostDriversCard renders error 1`] = `
+<div>
+  <div
+    class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1v5z4dq-MuiPaper-root-MuiCard-root"
+  >
+    <div
+      class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+    >
+      <div
+        class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-h5 MuiCardHeader-title css-1qvr50w-MuiTypography-root"
+        >
+          Error
+        </span>
+      </div>
+    </div>
+    <div
+      class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+    >
+      <div
+        class="MuiStack-root css-1sazv7p-MuiStack-root"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-1nkhxq8-MuiTypography-root"
+        >
+          Failed to load cost drivers.
+        </p>
+        <span
+          class="MuiTypography-root MuiTypography-caption css-l6f9j3-MuiTypography-root"
+        >
+          Correlation ID: 
+          corr-1
+        </span>
+        <button
+          aria-label="Refresh cost drivers"
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1d97c9r-MuiButtonBase-root-MuiIconButton-root"
+          tabindex="0"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.75-6h-2.1A6 6 0 1112 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+            />
+          </svg>
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

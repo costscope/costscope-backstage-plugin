@@ -1,0 +1,221 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TopServices snapshots data 1`] = `
+<div
+  aria-labelledby="costscope-top-services-heading"
+  class="MuiStack-root css-jfdv4h-MuiStack-root"
+  role="region"
+>
+  <div
+    class="MuiStack-root css-1jv2z0n-MuiStack-root"
+  >
+    <h2
+      class="MuiTypography-root MuiTypography-h6 css-1i29sir-MuiTypography-root"
+      id="costscope-top-services-heading"
+    >
+      Top Services
+    </h2>
+    <button
+      aria-label="Refresh top services data"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-asjnmr-MuiButtonBase-root-MuiIconButton-root"
+      data-testid="top-services-refresh"
+      tabindex="0"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.75-6h-2.1A6 6 0 1112 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+        />
+      </svg>
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+  <ul
+    aria-label="Top services by cost"
+    class="MuiList-root MuiList-padding css-h4y409-MuiList-root"
+  >
+    <li
+      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding MuiListItem-divider css-1ttfq4c-MuiListItem-root"
+      data-testid="service-Compute"
+    >
+      <div
+        class="MuiListItemText-root MuiListItemText-multiline css-konndc-MuiListItemText-root"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
+        >
+          Compute
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary css-10uz0ye-MuiTypography-root"
+        >
+          20.0%
+        </p>
+      </div>
+      <div
+        class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorDefault MuiChip-outlinedDefault css-4t8blp-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-rrn746-MuiChip-label"
+        >
+          $1,000.00
+        </span>
+      </div>
+    </li>
+    <li
+      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding MuiListItem-divider css-1ttfq4c-MuiListItem-root"
+      data-testid="service-DB"
+    >
+      <div
+        class="MuiListItemText-root MuiListItemText-multiline css-konndc-MuiListItemText-root"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
+        >
+          DB
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary css-186ue29-MuiTypography-root"
+        >
+          -10.0%
+        </p>
+      </div>
+      <div
+        class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorDefault MuiChip-outlinedDefault css-4t8blp-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-rrn746-MuiChip-label"
+        >
+          $500.00
+        </span>
+      </div>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`TopServices snapshots empty 1`] = `
+<div
+  aria-labelledby="costscope-top-services-heading"
+  class="MuiStack-root css-jfdv4h-MuiStack-root"
+  role="region"
+>
+  <div
+    class="MuiStack-root css-1jv2z0n-MuiStack-root"
+  >
+    <h2
+      class="MuiTypography-root MuiTypography-h6 css-1i29sir-MuiTypography-root"
+      id="costscope-top-services-heading"
+    >
+      Top Services
+    </h2>
+    <button
+      aria-label="Refresh top services data"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-asjnmr-MuiButtonBase-root-MuiIconButton-root"
+      data-testid="top-services-refresh"
+      tabindex="0"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.75-6h-2.1A6 6 0 1112 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+        />
+      </svg>
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+  <div
+    class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1v5z4dq-MuiPaper-root-MuiCard-root"
+  >
+    <div
+      class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+    >
+      <div
+        class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-h5 MuiCardHeader-title css-1qvr50w-MuiTypography-root"
+        >
+          No data
+        </span>
+      </div>
+    </div>
+    <div
+      class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+      >
+        No data for selected period
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TopServices snapshots error 1`] = `
+<div
+  class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1v5z4dq-MuiPaper-root-MuiCard-root"
+>
+  <div
+    class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+  >
+    <div
+      class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+    >
+      <span
+        class="MuiTypography-root MuiTypography-h5 MuiCardHeader-title css-1qvr50w-MuiTypography-root"
+      >
+        Error
+      </span>
+    </div>
+  </div>
+  <div
+    class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+  >
+    <div
+      class="MuiStack-root css-1sazv7p-MuiStack-root"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-1nkhxq8-MuiTypography-root"
+      >
+        Failed to load data. Please retry.
+      </p>
+      <button
+        aria-label="Refresh top services data"
+        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1d97c9r-MuiButtonBase-root-MuiIconButton-root"
+        tabindex="0"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.75-6h-2.1A6 6 0 1112 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+          />
+        </svg>
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;

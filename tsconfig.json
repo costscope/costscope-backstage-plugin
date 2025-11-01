@@ -1,0 +1,30 @@
+{
+  "extends": "@backstage/cli/config/tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react",
+    "skipLibCheck": true,
+     "baseUrl": "./",
+     "paths": {
+  "src/*": ["src/*"],
+  "@costscope/contracts": ["packages/contracts/src"],
+  "@costscope/contracts/*": ["packages/contracts/src/*"]
+     },
+    "resolveJsonModule": true
+  },
+  "include": [
+    "packages/plugin/src",
+    "packages/plugin/src/types/**/*.d.ts",
+    "packages/plugin/src/**/*.d.ts",
+    "packages/contracts/src",
+    "packages/mock-backend/src"
+  ],
+  "exclude": [
+    // exclude test sources from strict tsc typecheck (Jest handles tests)
+  "packages/plugin/src/__tests__/**",
+  "packages/plugin/src/**/*.test.ts",
+  "packages/plugin/src/**/*.test.tsx",
+  // exclude storybook stories from tsc build/typecheck
+  "packages/plugin/src/**/*.stories.ts",
+  "packages/plugin/src/**/*.stories.tsx"
+  ]
+}

@@ -1,0 +1,16 @@
+<script>
+  (function () {
+    try {
+      var params = new URLSearchParams(window.location.search || '');
+      if (!params.has('path')) {
+        // Default to the CostscopePage Docs route
+        var target = '?path=/docs/costscope-pages-costscopepage--docs';
+        // Preserve base path (works for dev and GitHub Pages subpaths)
+        var newUrl = window.location.pathname + target + window.location.hash;
+        window.location.replace(newUrl);
+      }
+    } catch (e) {
+      // swallow
+    }
+  })();
+</script>

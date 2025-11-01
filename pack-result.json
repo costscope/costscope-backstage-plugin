@@ -1,0 +1,511 @@
+[
+  {
+    "id": "costscope-plugin@0.1.0",
+    "name": "costscope-plugin",
+    "version": "0.1.0",
+    "size": 219058,
+    "unpackedSize": 869973,
+    "shasum": "170c1440eab57da5b9e5188207195b9648e648f0",
+    "integrity": "sha512-Tv3BlZQl2bkEpFgEk9LuMGj7jkIleO5z9HQxN7sqjLQz00Co6qfKDnxZAX16zRRmHZDe+eMxt1Uzjch5kZ2IIQ==",
+    "filename": "costscope-plugin-0.1.0.tgz",
+    "files": [
+      {
+        "path": "CHANGELOG.md",
+        "size": 609,
+        "mode": 420
+      },
+      {
+        "path": "LICENSE",
+        "size": 587,
+        "mode": 420
+      },
+      {
+        "path": "README.md",
+        "size": 79232,
+        "mode": 420
+      },
+      {
+        "path": "dist/buildPath.d.ts",
+        "size": 42,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-LKZ7XIC6.mjs",
+        "size": 20855,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-LKZ7XIC6.mjs.map",
+        "size": 38316,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-X5SIHHGI.mjs",
+        "size": 8725,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-X5SIHHGI.mjs.map",
+        "size": 6853,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-XNMUIY72.mjs",
+        "size": 205,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-XNMUIY72.mjs.map",
+        "size": 71,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-YVLEYBPB.mjs",
+        "size": 80362,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-YVLEYBPB.mjs.map",
+        "size": 171424,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/apiRef.d.ts",
+        "size": 211,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/cache/cache.d.ts",
+        "size": 1449,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/cache/index.d.ts",
+        "size": 53,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/cache/swrCache.d.ts",
+        "size": 514,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/core/errors.d.ts",
+        "size": 978,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/core/transport.d.ts",
+        "size": 752,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/createClient.d.ts",
+        "size": 548,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/hooks/index.d.ts",
+        "size": 512,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/hooks/useCacheEvents.d.ts",
+        "size": 286,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/hooks/useClientStaleTime.d.ts",
+        "size": 201,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/hooks/usePrefetchedCostscopeData.d.ts",
+        "size": 1666,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/hooks/usePrefetchOnVisibility.d.ts",
+        "size": 663,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/hooks/useProgressiveHydration.d.ts",
+        "size": 412,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/hooks/useProjectAnnotation.d.ts",
+        "size": 276,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/hooks/useRefetchableCostscope.d.ts",
+        "size": 931,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/hooks/useRetryTelemetry.d.ts",
+        "size": 255,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/index.d.ts",
+        "size": 3421,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/telemetry/retryTelemetry.d.ts",
+        "size": 1675,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/telemetry/telemetry.d.ts",
+        "size": 1057,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/telemetry/validationTelemetry.d.ts",
+        "size": 820,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/types.d.ts",
+        "size": 91,
+        "mode": 420
+      },
+      {
+        "path": "dist/client/validation/validation.d.ts",
+        "size": 566,
+        "mode": 420
+      },
+      {
+        "path": "dist/components/controls/FiltersBar.d.ts",
+        "size": 478,
+        "mode": 420
+      },
+      {
+        "path": "dist/components/dev/CacheEventsPanel.d.ts",
+        "size": 257,
+        "mode": 420
+      },
+      {
+        "path": "dist/components/index.d.ts",
+        "size": 11,
+        "mode": 420
+      },
+      {
+        "path": "dist/components/pages/CostscopePage.d.ts",
+        "size": 88,
+        "mode": 420
+      },
+      {
+        "path": "dist/components/pages/EntityCostscopeContent.d.ts",
+        "size": 97,
+        "mode": 420
+      },
+      {
+        "path": "dist/components/ui/LiteInfoCard.d.ts",
+        "size": 418,
+        "mode": 420
+      },
+      {
+        "path": "dist/components/widgets/cards/SummaryCard.d.ts",
+        "size": 153,
+        "mode": 420
+      },
+      {
+        "path": "dist/components/widgets/charts/CostOverviewCard.d.ts",
+        "size": 158,
+        "mode": 420
+      },
+      {
+        "path": "dist/components/widgets/lists/TopServices.d.ts",
+        "size": 575,
+        "mode": 420
+      },
+      {
+        "path": "dist/components/widgets/panels/ActionItemsPanel.d.ts",
+        "size": 129,
+        "mode": 420
+      },
+      {
+        "path": "dist/config/runtimeConfig.d.ts",
+        "size": 1183,
+        "mode": 420
+      },
+      {
+        "path": "dist/constants/errors.d.ts",
+        "size": 373,
+        "mode": 420
+      },
+      {
+        "path": "dist/constants/index.d.ts",
+        "size": 559,
+        "mode": 420
+      },
+      {
+        "path": "dist/CostscopePage-QHDS6BVK.mjs",
+        "size": 228,
+        "mode": 420
+      },
+      {
+        "path": "dist/CostscopePage-QHDS6BVK.mjs.map",
+        "size": 71,
+        "mode": 420
+      },
+      {
+        "path": "dist/criticalProfiles.d.ts",
+        "size": 61,
+        "mode": 420
+      },
+      {
+        "path": "dist/EntityCostscopeContent-RODWGDHZ.mjs",
+        "size": 2948,
+        "mode": 420
+      },
+      {
+        "path": "dist/EntityCostscopeContent-RODWGDHZ.mjs.map",
+        "size": 4656,
+        "mode": 420
+      },
+      {
+        "path": "dist/errorCodes.d.ts",
+        "size": 120,
+        "mode": 420
+      },
+      {
+        "path": "dist/errors.d.ts",
+        "size": 151,
+        "mode": 420
+      },
+      {
+        "path": "dist/features/costs/tables/BreakdownTable.d.ts",
+        "size": 327,
+        "mode": 420
+      },
+      {
+        "path": "dist/formatting.d.ts",
+        "size": 156,
+        "mode": 420
+      },
+      {
+        "path": "dist/formatting/date.d.ts",
+        "size": 103,
+        "mode": 420
+      },
+      {
+        "path": "dist/formatting/index.d.ts",
+        "size": 1432,
+        "mode": 420
+      },
+      {
+        "path": "dist/i18n.d.ts",
+        "size": 121,
+        "mode": 420
+      },
+      {
+        "path": "dist/i18n/index.d.ts",
+        "size": 612,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts",
+        "size": 1148,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js",
+        "size": 140061,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js.map",
+        "size": 243375,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.mjs",
+        "size": 5356,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.mjs.map",
+        "size": 10590,
+        "mode": 420
+      },
+      {
+        "path": "dist/initRuntimeValidation.d.ts",
+        "size": 76,
+        "mode": 420
+      },
+      {
+        "path": "dist/legacy.d.ts",
+        "size": 384,
+        "mode": 420
+      },
+      {
+        "path": "dist/messages-FLQ63C3V.mjs",
+        "size": 5722,
+        "mode": 420
+      },
+      {
+        "path": "dist/messages-FLQ63C3V.mjs.map",
+        "size": 71,
+        "mode": 420
+      },
+      {
+        "path": "dist/public/index.d.ts",
+        "size": 1487,
+        "mode": 420
+      },
+      {
+        "path": "dist/public/plugin.d.ts",
+        "size": 658,
+        "mode": 420
+      },
+      {
+        "path": "dist/queryKeys.d.ts",
+        "size": 91,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/hydrateFromManifest.d.ts",
+        "size": 139,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/hydration.d.ts",
+        "size": 1766,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/useProgressiveHydration.d.ts",
+        "size": 145,
+        "mode": 420
+      },
+      {
+        "path": "dist/testing/contractsStorybookMock.d.ts",
+        "size": 199,
+        "mode": 420
+      },
+      {
+        "path": "dist/testing/highContrastTheme.d.ts",
+        "size": 78,
+        "mode": 420
+      },
+      {
+        "path": "dist/testing/simpleBackstageMocks.d.ts",
+        "size": 434,
+        "mode": 420
+      },
+      {
+        "path": "dist/testing/utils/renderWithProviders.d.ts",
+        "size": 310,
+        "mode": 420
+      },
+      {
+        "path": "dist/transport.d.ts",
+        "size": 41,
+        "mode": 420
+      },
+      {
+        "path": "dist/types.d.ts",
+        "size": 2887,
+        "mode": 420
+      },
+      {
+        "path": "dist/utils/buildPath.d.ts",
+        "size": 36,
+        "mode": 420
+      },
+      {
+        "path": "dist/utils/criticalProfiles.d.ts",
+        "size": 936,
+        "mode": 420
+      },
+      {
+        "path": "dist/utils/downsample.d.ts",
+        "size": 708,
+        "mode": 420
+      },
+      {
+        "path": "dist/utils/logger.d.ts",
+        "size": 769,
+        "mode": 420
+      },
+      {
+        "path": "dist/utils/path.d.ts",
+        "size": 300,
+        "mode": 420
+      },
+      {
+        "path": "dist/utils/project.d.ts",
+        "size": 326,
+        "mode": 420
+      },
+      {
+        "path": "dist/utils/projectParams.d.ts",
+        "size": 46,
+        "mode": 420
+      },
+      {
+        "path": "dist/utils/queryKeys.d.ts",
+        "size": 747,
+        "mode": 420
+      },
+      {
+        "path": "dist/validation.d.ts",
+        "size": 48,
+        "mode": 420
+      },
+      {
+        "path": "dist/validation/initRuntimeValidation.d.ts",
+        "size": 75,
+        "mode": 420
+      },
+      {
+        "path": "dist/validation/validationDescriptor.d.ts",
+        "size": 622,
+        "mode": 420
+      },
+      {
+        "path": "dist/validation/validationTypes.d.ts",
+        "size": 61,
+        "mode": 420
+      },
+      {
+        "path": "dist/validationDescriptor-SUONOAKF.mjs",
+        "size": 771,
+        "mode": 420
+      },
+      {
+        "path": "dist/validationDescriptor-SUONOAKF.mjs.map",
+        "size": 1301,
+        "mode": 420
+      },
+      {
+        "path": "dist/validationDescriptor.d.ts",
+        "size": 136,
+        "mode": 420
+      },
+      {
+        "path": "dist/validationTelemetry.d.ts",
+        "size": 282,
+        "mode": 420
+      },
+      {
+        "path": "dist/validationTypes.d.ts",
+        "size": 60,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 7648,
+        "mode": 420
+      }
+    ],
+    "entryCount": 99,
+    "bundled": []
+  }
+]

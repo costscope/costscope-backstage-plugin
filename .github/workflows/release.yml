@@ -1,0 +1,16 @@
+name: DEPRECATED release workflow
+
+# This file intentionally does nothing. It previously contained two separate workflows
+# mixed into one YAML which is invalid. The release flows are now split into:
+#   - .github/workflows/release-version.yml (version PR via Changesets)
+#   - .github/workflows/release-publish.yml (tag-based npm publish with provenance)
+# Keeping this stub to avoid accidental triggers until fully removed in a follow-up.
+
+on:
+  workflow_call:
+
+jobs:
+  noop:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deprecated workflow — see split files."

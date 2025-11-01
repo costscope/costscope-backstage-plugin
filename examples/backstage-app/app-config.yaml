@@ -1,0 +1,24 @@
+app:
+  title: Example Costscope App
+backend:
+  baseUrl: http://localhost:7008
+  listen:
+    port: 7008
+  cors:
+    origin: http://localhost:3000
+    methods: [GET, POST, PUT, DELETE]
+    credentials: true
+proxy:
+  '/costscope':
+    target: 'http://localhost:7008/api/costscope'
+
+discovery:
+  endpoints:
+    - type: plugin
+      plugins: [costscope]
+      # Direct discovery to local mock server; avoids relying on webpack devServer proxy.
+      # Client paths like '/providers' resolve to 'http://localhost:7007/api/costscope/providers'.
+      target: http://localhost:7007/api/costscope
+
+organization:
+  name: Example Org

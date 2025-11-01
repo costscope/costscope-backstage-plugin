@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+  "mainEntryPointFilePath": "./dist/index.d.ts",
+  "docModel": {
+    "enabled": false
+  },
+  "apiReport": {
+    "enabled": true,
+  "reportFileName": "costscope-backstage-plugin.api.md",
+    "reportFolder": "./etc",
+    "includeForgottenExports": false
+  },
+  "dtsRollup": {
+    "enabled": false
+  },
+  "tsdocMetadata": {
+    "enabled": false
+  },
+  "compiler": {
+    "tsconfigFilePath": "./tsconfig.json"
+  },
+  "messages": {
+    "extractorMessageReporting": {
+      "ae-unresolved-link": { "logLevel": "none" },
+      "ae-missing-release-tag": { "logLevel": "none" },
+      "ae-forgotten-export": {
+        "logLevel": "none",
+        "addToApiReportFile": false
+      }
+    },
+    "tsdocMessageReporting": {
+      "tsdoc-link-tag-unescaped-text": { "logLevel": "none" },
+      "tsdoc-malformed-inline-tag": { "logLevel": "none" },
+      "tsdoc-escape-right-brace": { "logLevel": "none" },
+      "tsdoc-escape-greater-than": { "logLevel": "none" }
+    }
+  }
+}

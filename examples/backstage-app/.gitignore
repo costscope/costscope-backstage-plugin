@@ -1,0 +1,12 @@
+###############################################################################
+# Backstage example app ignores
+###############################################################################
+node_modules/
+dist/
+.cache/
+coverage/
+*.log
+/.env.local
+
+# Temporary root scripts created by assistants
+/tmp-*.sh

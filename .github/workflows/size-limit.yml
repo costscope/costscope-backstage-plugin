@@ -1,0 +1,36 @@
+name: size-limit
+
+on:
+  workflow_dispatch: {}
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  size:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+          cache: yarn
+      - name: Install deps
+        run: yarn install --frozen-lockfile
+      - name: Build & Size Limit
+        run: |
+          # Run size-limit within the plugin workspace
+          yarn workspace @costscope/backstage-plugin size --json > size-limit.json || true
+          # Also run normal output for PR comment readability
+          yarn workspace @costscope/backstage-plugin size
+      - name: Upload size artifact
+        # Skip artifact upload under act (no ACTIONS_RUNTIME_TOKEN)
+        if: ${{ always() && github.actor != 'nektos/act' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: size-limit-${{ github.sha }}
+          path: size-limit.json
+      - name: Report
+        if: always()
+        run: echo 'Size limit run complete.'

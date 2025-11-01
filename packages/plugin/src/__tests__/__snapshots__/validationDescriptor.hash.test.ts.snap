@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`validationDescriptor hash matches recomputed djb2 hash for descriptor object 1`] = `
+{
+  "VALIDATION_DESCRIPTOR_HASH": "3b76ff4d",
+  "validationDescriptor": {
+    "alerts": "array[{id:string,severity:info|warn|critical,message:string}]",
+    "breakdown": "array[{dim:string,cost:number,deltaPct:number}]",
+    "overview": "array[{date:string,cost:number}]",
+  },
+}
+`;

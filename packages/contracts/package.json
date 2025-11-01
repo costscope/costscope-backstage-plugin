@@ -1,0 +1,44 @@
+{
+  "name": "@costscope/contracts",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+  "import": "./dist/index.js",
+  "require": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+  "build": "node scripts/build.cjs && tsc -p tsconfig.json",
+    "clean": "rimraf dist",
+  "spec:hash": "node scripts/spec-hash-check.cjs",
+    "spec:check": "yarn build && yarn spec:hash",
+    "prepublishOnly": "yarn build && yarn spec:hash"
+  },
+  "dependencies": {
+    "zod": "^3.23.8",
+    "@zodios/core": "^10.9.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/costscope/costscope-backstage-plugin.git"
+  },
+  "_todo": "(resolved) repository.url updated before first publish",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^7.4.0",
+  "openapi-zod-client": "^1.18.3",
+    "rimraf": "^5.0.5",
+    "typescript": "~5.4.0",
+    "ts-node": "^10.9.2"
+  }
+}

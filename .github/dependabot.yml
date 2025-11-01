@@ -1,0 +1,51 @@
+version: 2
+# Dependabot configuration: keeps npm and GitHub Actions up to date.
+# For monorepos with workspaces, Dependabot updates the root lockfile (yarn v1/berry) automatically.
+# Adjust schedules (weekly) & open PR limits as the project grows.
+
+updates:
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'tuesday' # shifted to Tuesday early UTC to avoid weekend noise
+      time: '03:00'
+      timezone: 'UTC'
+    open-pull-requests-limit: 5
+    reviewers:
+      - 'dev404ai'
+    labels: ['dependencies', 'ci']
+
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'tuesday' # aligned with actions, staggered start
+      time: '03:30'
+      timezone: 'UTC'
+    # Group frequently co-updated Backstage packages to reduce PR noise.
+    groups:
+      backstage-minor-bump:
+        applies-to: version-updates
+        patterns:
+          - '@backstage/*'
+        update-types:
+          - 'minor'
+          - 'patch'
+      typescript-eslint:
+        applies-to: version-updates
+        patterns:
+          - '@typescript-eslint/*'
+        update-types:
+          - 'minor'
+          - 'patch'
+    open-pull-requests-limit: 8
+    reviewers:
+      - 'dev404ai'
+    labels: ['dependencies']
+    # Ignore major Backstage upgrades automatically; handle them manually to coordinate breaking changes.
+    ignore:
+      - dependency-name: '@backstage/*'
+        update-types: ['version-update:semver-major']
+    # Rebase stale PRs automatically
+    rebase-strategy: 'auto'

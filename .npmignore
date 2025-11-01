@@ -1,0 +1,51 @@
+# Prevent recursive vendoring when file: referenced
+node_modules
+coverage
+examples
+artifacts
+storybook-static
+dist-analyze
+playwright-report
+
+# Development and build files
+scripts/
+docs/
+etc/
+src/
+tests-e2e/
+.eslintcache
+.jest-cache
+*.tsbuildinfo
+*.log
+*.pid
+__TODO.md
+analytics.md
+api-diff.*
+pack-result.json
+sync.log
+renovate.json
+Makefile
+
+# Git and GitHub
+.git/
+.gitattributes
+.github/
+
+# Development tools
+.husky/
+.devcontainer/
+.storybook/
+.experiment/
+
+# Config files (not needed for consumers)
+jest.config.cjs
+jest.setup.ts
+eslint.config.mjs
+eslint-rules/
+tsconfig*.json
+.prettierrc
+.nvmrc
+.node-version
+
+# CI/CD
+.github/

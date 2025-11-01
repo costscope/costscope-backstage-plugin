@@ -1,0 +1,64 @@
+# OpenSSF Scorecard analysis workflow
+# Docs: https://github.com/ossf/scorecard-action
+# Runs on main branch pushes and weekly to continuously measure supply chain security posture.
+
+name: OpenSSF Scorecard
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  # Minimal permissions; job-level can override. Required for uploading SARIF & publishing results.
+  contents: read
+  security-events: write
+  actions: read
+  id-token: write
+
+jobs:
+  noop-act:
+    if: ${{ github.actor == 'nektos/act' && github.event_name != 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: noop (act)
+        run: echo "Skipping OpenSSF Scorecard under act; networked service."
+
+  analysis:
+    if: ${{ github.actor != 'nektos/act' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+        with:
+          # Fetch full history so Scorecard can evaluate contributors / branch protection, etc.
+          fetch-depth: 0
+
+      - name: Run Scorecard
+        uses: ossf/scorecard-action@ff5dd8929f96a8a4dc67d13f32b8c75057829621
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          # Publishes results to a public dataset (BigQuery) enabling ecosystem-wide tracking.
+          publish_results: true
+          # Uncomment to enable custom token (optional):
+          # repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload SARIF to code scanning
+        uses: github/codeql-action/upload-sarif@528ca598d956c91826bd742262cdfc5d02b77710
+        with:
+          sarif_file: results.sarif
+
+      - name: Upload raw Scorecard results artifact (optional)
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: scorecard-json
+          path: results.sarif
+          retention-days: 7
+
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+      id-token: write

@@ -1,0 +1,30 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "removeComments": false,
+    "stripInternal": false,
+    "declarationMap": false,
+  "declarationDir": "packages/plugin/dist",
+  "rootDir": "packages/plugin/src",
+  "incremental": false,
+    "paths": {
+      "@costscope/contracts": ["packages/contracts/src/index.d.ts"],
+      "@costscope/contracts/*": ["packages/contracts/src/*"]
+    }
+  },
+  "include": ["packages/plugin/src/**/*.ts", "packages/plugin/src/**/*.tsx", "packages/plugin/src/**/*.d.ts"],
+  "exclude": [
+  "packages/plugin/src/**/*.test.ts",
+  "packages/plugin/src/**/*.test.tsx",
+  "packages/plugin/src/**/*.spec.ts",
+  "packages/plugin/src/**/*.spec.tsx",
+  "packages/plugin/src/**/*.stories.ts",
+  "packages/plugin/src/**/*.stories.tsx",
+  "packages/plugin/src/**/__tests__/**",
+  "packages/plugin/src/test-mocks/**",
+  "packages/plugin/src/storybook/**"
+  ]
+}

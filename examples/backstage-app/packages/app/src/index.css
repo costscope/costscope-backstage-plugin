@@ -1,0 +1,17 @@
+/* App global layout fixes to avoid double scrollbars */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+/* Hide body scrollbar and let the app (SidebarPage) handle scrolling */
+body {
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure the app root stretches and lets child layouts control scrolling */
+#root > * {
+  height: 100%;
+}

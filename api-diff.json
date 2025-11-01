@@ -1,0 +1,10 @@
+{
+  "added": [
+    "export function hydrateFromManifest(queryClient: QueryClient, doc?: Document): CostscopePrefetchManifest | undefined;",
+    "export function readManifestFromDocument(doc?: Document): CostscopePrefetchManifest | undefined;",
+    "export function useProgressiveHydration(manifest?: CostscopePrefetchManifest): void;"
+  ],
+  "removed": [],
+  "baselineMissing": false,
+  "tempMissing": false
+}
