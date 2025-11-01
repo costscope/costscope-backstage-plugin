@@ -1,0 +1,93 @@
+name: Sync Example Dependencies
+
+on:
+  push:
+    # Temporary: run on push; will migrate some to tags later
+    branches: [main]
+    paths:
+      - "packages/plugin/package.json"
+      - "scripts/sync-examples-version.js"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  noop-act:
+    if: ${{ github.actor == 'nektos/act' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: noop (act)
+        run: echo "Skipping sync-examples under act; relies on GH token and PR creation."
+
+  sync:
+    if: ${{ github.actor != 'nektos/act' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --ignore-scripts
+
+      - name: Lint (sanity)
+        run: yarn lint:all --silent || true
+
+      - name: Run sync script
+        run: node scripts/sync-examples-version.js
+
+      - name: Detect changes
+        id: diff
+        run: |
+          if git diff --quiet --exit-code; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check existing PR
+        id: pr_exists
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: node scripts/check-open-pr.js chore/sync-examples-version
+
+      - name: Create Pull Request
+        if: steps.diff.outputs.changed == 'true' && steps.pr_exists.outputs.exists != 'true'
+        uses: peter-evans/create-pull-request@c5a7806660adbe173f04e3e038b0ccdcd758773c
+        with:
+          commit-message: "chore(examples): sync plugin version in example apps"
+          title: "chore(examples): sync plugin version in example apps"
+          branch: chore/sync-examples-version
+          delete-branch: true
+          labels: maintenance,examples,requires-review
+          draft: true
+          body: |
+            Automated sync of example app dependency on @costscope/backstage-plugin.
+            Triggered by change in packages/plugin/package.json.
+            This PR was created only if not already open.
+            Reviewers: add required reviewers in repository CODEOWNERS / branch protection.
+
+      - name: Push update to existing PR branch
+        if: steps.diff.outputs.changed == 'true' && steps.pr_exists.outputs.exists == 'true'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add examples/**/package.json
+          git commit -m 'chore(examples): sync plugin version in example apps (update)' || echo 'No commit'
+          git push origin HEAD:chore/sync-examples-version
+
+      - name: Size Limit
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          yarn workspace @costscope/backstage-plugin build:size
+          npx size-limit

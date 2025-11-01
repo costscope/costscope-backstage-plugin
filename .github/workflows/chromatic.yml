@@ -1,0 +1,52 @@
+name: Chromatic
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  noop-act:
+    if: ${{ github.actor == 'nektos/act' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: noop (act)
+        run: echo "Skipping Chromatic under act; requires external service."
+
+  chromatic:
+    # Skip under nektos/act to avoid external network/service requirements
+    if: ${{ github.actor != 'nektos/act' }}
+    name: Visual regression (Chromatic)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: |
+          corepack enable || true
+          yarn install --frozen-lockfile
+
+      - name: Build Storybook
+        run: yarn build-storybook
+
+      - name: Publish to Chromatic
+        uses: chromaui/action@016b2b6bd92fef54e5764ea1f15ada32f65939ce
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          storybookBuildDir: storybook-static
+          onlyChanged: true
+          exitOnceUploaded: true
+          diagnostics: false

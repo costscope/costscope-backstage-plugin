@@ -1,0 +1,142 @@
+name: Nightly Security Audit
+
+on:
+  workflow_dispatch: {}
+  push:
+    # Temporary: run on push; will migrate some to tags later
+    branches: [main]
+
+permissions:
+  contents: read
+  issues: write
+  security-events: write # required to upload SARIF to code scanning
+
+jobs:
+  noop-on-push:
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Noop on push
+        run: |
+          echo '### Nightly Security Audit (noop on push)' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Nightly audit runs on schedule or manual dispatch only.' >> "$GITHUB_STEP_SUMMARY"
+  noop-act:
+    if: ${{ github.event_name != 'push' && github.actor == 'nektos/act' && github.event_name != 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: noop (act)
+        run: echo "Skipping nightly security audit under act; network downloads and SARIF upload not supported."
+
+  audit:
+    if: ${{ github.event_name != 'push' && github.actor != 'nektos/act' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+          cache: "yarn"
+
+      - name: Install (prod only)
+        run: |
+          corepack enable || true
+          yarn install --frozen-lockfile --production
+
+      - name: Install osv-scanner (pinned)
+        run: |
+          set -euo pipefail
+          if command -v osv-scanner >/dev/null 2>&1; then
+            echo "osv-scanner already present: $(osv-scanner --version)";
+          else
+            echo "Installing pinned osv-scanner v1.7.4...";
+            tmpdir=$(mktemp -d)
+            cd "$tmpdir"
+            TAG="v1.7.4"
+            curl -sSfL "https://github.com/google/osv-scanner/releases/download/${TAG}/osv-scanner_1.7.4_linux_amd64.tar.gz" -o osv-scanner.tgz
+            tar -xzf osv-scanner.tgz
+            sudo mv osv-scanner /usr/local/bin/
+            echo "Installed osv-scanner $(osv-scanner --version)"
+          fi
+
+      - name: Run npm audit (prod)
+        id: audit
+        continue-on-error: true
+        run: |
+          # npm audit works with package-lock; fallback by generating a temp one
+          if [ ! -f package-lock.json ]; then
+            npm install --package-lock-only --ignore-scripts --no-audit
+          fi
+          npm audit --omit=dev --json > audit.json || true
+          cat audit.json | jq '.metadata.vulnerabilities' || true
+      - name: OSV Scanner (SARIF)
+        id: osv
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+            echo "Running osv-scanner against yarn.lock ..."
+            osv-scanner --lockfile=yarn.lock --format sarif > audit.osv.sarif || true
+            # Also scan the workspace directory for manifests (package.json etc.)
+            osv-scanner --recursive . --format sarif > audit.workspace.sarif || true
+            # Merge (simple concat of runs) if second file exists
+            if [ -f audit.workspace.sarif ]; then
+              jq -s '{"version":"2.1.0","runs": (.[0].runs + .[1].runs)}' audit.osv.sarif audit.workspace.sarif > audit.merged.sarif || cp audit.osv.sarif audit.merged.sarif
+              mv audit.merged.sarif audit.osv.sarif
+            fi
+            if [ -s audit.osv.sarif ]; then
+              echo "sarif_present=true" >> $GITHUB_OUTPUT
+            else
+              echo "sarif_present=false" >> $GITHUB_OUTPUT
+            fi
+      - name: Upload SARIF to code scanning
+        if: always() && steps.osv.outputs.sarif_present == 'true'
+        uses: github/codeql-action/upload-sarif@528ca598d956c91826bd742262cdfc5d02b77710
+        with:
+          sarif_file: audit.osv.sarif
+          category: osv-scanner
+
+      - name: Parse high severity count
+        id: parse
+        run: |
+          HIGH=$(jq '.metadata.vulnerabilities.high + .metadata.vulnerabilities.critical' audit.json)
+          echo "high_count=$HIGH" >> $GITHUB_OUTPUT
+          CRIT=$(jq '.metadata.vulnerabilities.critical' audit.json)
+          echo "critical_count=$CRIT" >> $GITHUB_OUTPUT
+
+      - name: Fail on critical vulnerabilities
+        if: ${{ steps.parse.outputs.critical_count > 0 }}
+        run: |
+          echo "Critical vulnerabilities detected: ${{ steps.parse.outputs.critical_count }}" >&2
+          exit 1
+
+      - name: Create / Update Issue if High Vulns
+        if: ${{ steps.parse.outputs.high_count > 0 }}
+        run: |
+          set -e
+          TITLE="Security audit: High severity vulnerabilities detected"
+          HIGH=${{ steps.parse.outputs.high_count }}
+          VULNS=$(jq -c '.metadata.vulnerabilities' audit.json)
+          BODY_FILE=issue_body.txt
+          printf "Nightly security audit detected %s high/critical vulnerabilities in production dependencies.\n\n" "$HIGH" > $BODY_FILE
+          printf "Summary (npm audit):\n%s\n\n" "$VULNS" >> $BODY_FILE
+          printf "Re-run locally to validate:\n\n    yarn install\n    npm audit --omit=dev\n" >> $BODY_FILE
+          existing=$(gh issue list --search "$TITLE" --state open --limit 1 --json number --jq '.[0].number') || true
+          if [ -n "$existing" ]; then
+            gh issue edit "$existing" --title "$TITLE" --add-label security --add-label automation --body-file $BODY_FILE
+          else
+            gh issue create --title "$TITLE" --label security --label automation --body-file $BODY_FILE
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Close Issue if Resolved
+        if: ${{ steps.parse.outputs.high_count == 0 }}
+        run: |
+          existing=$(gh issue list --search "Security audit: High severity vulnerabilities detected" --state open --limit 1 --json number --jq '.[0].number') || true
+          if [ -n "$existing" ]; then
+            gh issue close "$existing" -c "No high severity vulnerabilities in latest nightly audit." || true
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

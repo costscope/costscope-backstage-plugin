@@ -1,0 +1,195 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SummaryCard renders data 1`] = `
+<div
+  aria-labelledby="costscope-summary-heading"
+  class="MuiStack-root css-jfdv4h-MuiStack-root"
+  role="region"
+>
+  <div
+    class="MuiStack-root css-1jv2z0n-MuiStack-root"
+  >
+    <h2
+      class="MuiTypography-root MuiTypography-h6 css-1i29sir-MuiTypography-root"
+      id="costscope-summary-heading"
+    >
+      Summary
+    </h2>
+    <button
+      aria-label="Refresh summary"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-asjnmr-MuiButtonBase-root-MuiIconButton-root"
+      tabindex="0"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        height="16"
+        role="img"
+        style="display: block;"
+        viewBox="0 0 24 24"
+        width="16"
+      >
+        <path
+          d="M17.65 6.35A7.95 7.95 0 0 0 12 4a8 8 0 1 0 7.9 9h-2.06A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h9V2l-4.35 4.35Z"
+          fill="currentColor"
+        />
+      </svg>
+    </button>
+  </div>
+  <div
+    class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1v5z4dq-MuiPaper-root-MuiCard-root"
+  >
+    <div
+      class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+    >
+      <div
+        class="MuiStack-root css-u8bqhf-MuiStack-root"
+      >
+        <div>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-1sn4lm3-MuiTypography-root"
+          >
+            Total
+          </span>
+          <h5
+            class="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root"
+          >
+            $123.45
+          </h5>
+        </div>
+        <div>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-1sn4lm3-MuiTypography-root"
+          >
+            Previous
+          </span>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+          >
+            $100.00
+          </p>
+        </div>
+        <div>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-1sn4lm3-MuiTypography-root"
+          >
+            Δ %
+          </span>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-1nkhxq8-MuiTypography-root"
+          >
+            23.4%
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SummaryCard renders empty 1`] = `
+<div
+  aria-labelledby="costscope-summary-heading"
+  class="MuiStack-root css-jfdv4h-MuiStack-root"
+  role="region"
+>
+  <div
+    class="MuiStack-root css-1jv2z0n-MuiStack-root"
+  >
+    <h2
+      class="MuiTypography-root MuiTypography-h6 css-1i29sir-MuiTypography-root"
+      id="costscope-summary-heading"
+    >
+      Summary
+    </h2>
+    <button
+      aria-label="Refresh summary"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-asjnmr-MuiButtonBase-root-MuiIconButton-root"
+      tabindex="0"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        height="16"
+        role="img"
+        style="display: block;"
+        viewBox="0 0 24 24"
+        width="16"
+      >
+        <path
+          d="M17.65 6.35A7.95 7.95 0 0 0 12 4a8 8 0 1 0 7.9 9h-2.06A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h9V2l-4.35 4.35Z"
+          fill="currentColor"
+        />
+      </svg>
+    </button>
+  </div>
+  <div
+    class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1v5z4dq-MuiPaper-root-MuiCard-root"
+  >
+    <div
+      class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+    >
+      <div
+        class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-h5 MuiCardHeader-title css-1qvr50w-MuiTypography-root"
+        >
+          No data
+        </span>
+      </div>
+    </div>
+    <div
+      class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+      >
+        No data for selected period
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SummaryCard renders error 1`] = `
+<div
+  class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1v5z4dq-MuiPaper-root-MuiCard-root"
+>
+  <div
+    class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+  >
+    <div
+      class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+    >
+      <span
+        class="MuiTypography-root MuiTypography-h5 MuiCardHeader-title css-1qvr50w-MuiTypography-root"
+      >
+        Error
+      </span>
+    </div>
+  </div>
+  <div
+    class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+  >
+    <div
+      class="MuiStack-root css-1sazv7p-MuiStack-root"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-1nkhxq8-MuiTypography-root"
+      >
+        Failed to load data. Please retry.
+      </p>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary css-6405a8-MuiButtonBase-root-MuiButton-root"
+        tabindex="0"
+        type="button"
+      >
+        Retry
+      </button>
+    </div>
+  </div>
+</div>
+`;

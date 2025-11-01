@@ -1,0 +1,227 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ActionItemsPanel snapshots data 1`] = `
+<div
+  aria-labelledby="costscope-action-items-heading"
+  class="MuiStack-root css-jfdv4h-MuiStack-root"
+  role="region"
+>
+  <div
+    class="MuiStack-root css-1jv2z0n-MuiStack-root"
+  >
+    <h6
+      class="MuiTypography-root MuiTypography-h6 css-1i29sir-MuiTypography-root"
+      id="costscope-action-items-heading"
+    >
+      Action Items
+    </h6>
+    <button
+      aria-label="Refresh action items"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-asjnmr-MuiButtonBase-root-MuiIconButton-root"
+      tabindex="0"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.75-6h-2.1A6 6 0 1112 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+        />
+      </svg>
+    </button>
+  </div>
+  <div
+    aria-label="Costscope alert (critical) Anomaly"
+    class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-t85qoq-MuiPaper-root-MuiCard-root"
+  >
+    <div
+      class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+    >
+      <div
+        class="MuiCardHeader-avatar css-1ssile9-MuiCardHeader-avatar"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-colorError MuiSvgIcon-fontSizeSmall css-1efkf0c-MuiSvgIcon-root"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M11 15h2v2h-2v-2zm0-8h2v6h-2V7zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2z"
+          />
+        </svg>
+      </div>
+      <div
+        class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-body2 MuiCardHeader-title css-1g5hxpd-MuiTypography-root"
+        >
+          Anomaly
+        </span>
+      </div>
+    </div>
+    <div
+      class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+    >
+      <span
+        class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+      >
+        Severity: 
+        <strong>
+          CRITICAL
+        </strong>
+      </span>
+    </div>
+  </div>
+  <div
+    aria-label="Costscope alert (warn) Idle resource"
+    class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-16s7kv2-MuiPaper-root-MuiCard-root"
+  >
+    <div
+      class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+    >
+      <div
+        class="MuiCardHeader-avatar css-1ssile9-MuiCardHeader-avatar"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-colorWarning MuiSvgIcon-fontSizeSmall css-gyrebt-MuiSvgIcon-root"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"
+          />
+        </svg>
+      </div>
+      <div
+        class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-body2 MuiCardHeader-title css-sfa6ho-MuiTypography-root"
+        >
+          Idle resource
+        </span>
+      </div>
+    </div>
+    <div
+      class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+    >
+      <span
+        class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+      >
+        Severity: 
+        <strong>
+          WARN
+        </strong>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ActionItemsPanel snapshots empty 1`] = `
+<div
+  aria-labelledby="costscope-action-items-heading"
+  class="MuiStack-root css-jfdv4h-MuiStack-root"
+  role="region"
+>
+  <div
+    class="MuiStack-root css-1jv2z0n-MuiStack-root"
+  >
+    <h6
+      class="MuiTypography-root MuiTypography-h6 css-1i29sir-MuiTypography-root"
+      id="costscope-action-items-heading"
+    >
+      Action Items
+    </h6>
+    <button
+      aria-label="Refresh action items"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-asjnmr-MuiButtonBase-root-MuiIconButton-root"
+      tabindex="0"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.75-6h-2.1A6 6 0 1112 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+        />
+      </svg>
+    </button>
+  </div>
+  <div
+    class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1v5z4dq-MuiPaper-root-MuiCard-root"
+  >
+    <div
+      class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+    >
+      <div
+        class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-h5 MuiCardHeader-title css-1qvr50w-MuiTypography-root"
+        >
+          No data
+        </span>
+      </div>
+    </div>
+    <div
+      class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+      >
+        No data for selected period
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ActionItemsPanel snapshots error 1`] = `
+<div
+  class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1v5z4dq-MuiPaper-root-MuiCard-root"
+>
+  <div
+    class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+  >
+    <div
+      class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+    >
+      <span
+        class="MuiTypography-root MuiTypography-h5 MuiCardHeader-title css-1qvr50w-MuiTypography-root"
+      >
+        Error
+      </span>
+    </div>
+  </div>
+  <div
+    class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+  >
+    <div
+      class="MuiStack-root css-1sazv7p-MuiStack-root"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-1nkhxq8-MuiTypography-root"
+      >
+        Failed to load data. Please retry.
+      </p>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary css-6405a8-MuiButtonBase-root-MuiButton-root"
+        tabindex="0"
+        type="button"
+      >
+        Retry
+      </button>
+    </div>
+  </div>
+</div>
+`;

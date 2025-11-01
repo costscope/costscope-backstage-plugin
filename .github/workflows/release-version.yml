@@ -1,0 +1,67 @@
+name: Release (version via Changesets)
+
+on:
+  push:
+    branches:
+      # Temporary: run on push; will migrate some to tags later
+      - main
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  noop-on-push:
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Noop on push
+        run: |
+          echo '### Release (version) noop on push' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Changesets versioning runs via workflow_dispatch to avoid push side effects.' >> "$GITHUB_STEP_SUMMARY"
+  noop-act:
+    if: ${{ github.event_name != 'push' && github.actor == 'nektos/act' && github.event_name != 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: noop (act)
+        run: echo "Skipping Changesets version job under act by default; run via workflow_dispatch to force."
+
+  version:
+    if: ${{ github.event_name != 'push' && github.actor != 'nektos/act' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # required for changesets to push version PR branch/commit
+      pull-requests: write # required for creating/updating the PR
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+          cache: "yarn"
+
+      - name: Install deps
+        run: |
+          corepack enable || true
+          yarn install --frozen-lockfile
+
+      - name: Quality gates
+        run: |
+          yarn typecheck
+          yarn lint
+          yarn test
+          yarn build
+
+      - name: Create Release PR (Changesets)
+        uses: changesets/action@e0145edc7d9d8679003495b11f87bd8ef63c0cba
+        with:
+          version: yarn changeset version
+          publish: false
+          commit: "chore: version packages"
+          title: "chore: version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

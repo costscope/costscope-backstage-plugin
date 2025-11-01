@@ -1,0 +1,79 @@
+name: E2E
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  noop-act:
+    if: ${{ github.actor == 'nektos/act' && github.event_name != 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: noop (act)
+        run: echo "Skipping E2E under act by default; run via workflow_dispatch to force."
+
+  e2e:
+    # Skip under nektos/act by default to avoid Playwright browser downloads and network deps
+    if: ${{ github.actor != 'nektos/act' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox] # webkit temporarily excluded (stability); re-add when flakes resolved
+    env:
+      E2E_BROWSERS: ${{ matrix.browser }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+          cache: "yarn"
+
+      - name: Install deps
+        run: yarn --frozen-lockfile
+
+      - name: Install Playwright Browser
+        run: npx playwright install --with-deps $E2E_BROWSERS
+
+      - name: Run E2E tests
+        run: E2E_BROWSERS=$E2E_BROWSERS yarn test:e2e
+        env:
+          CI: true
+
+      - name: Upload Playwright artifacts (always)
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: playwright-artifacts-${{ matrix.browser }}
+          path: |
+            tests-e2e/artifacts
+            playwright-report
+          if-no-files-found: ignore
+
+      - name: Upload JUnit report (always)
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: e2e-junit-${{ matrix.browser }}
+          path: test-results/e2e-junit.xml
+          if-no-files-found: ignore
+
+      - name: Add summary (always)
+        if: always()
+        run: |
+          if [ -f test-results/e2e-junit.xml ]; then
+            total=$(grep -o 'tests="[0-9]*"' test-results/e2e-junit.xml | head -1 | sed -E 's/.*="([0-9]+)"/\1/')
+            fails=$(grep -o 'failures="[0-9]*"' test-results/e2e-junit.xml | head -1 | sed -E 's/.*="([0-9]+)"/\1/')
+            echo "### E2E (${E2E_BROWSERS})" >> $GITHUB_STEP_SUMMARY
+            echo "Tests: $total  Failures: $fails" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### E2E (${E2E_BROWSERS})" >> $GITHUB_STEP_SUMMARY
+            echo "JUnit file missing" >> $GITHUB_STEP_SUMMARY
+          fi

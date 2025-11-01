@@ -1,0 +1,11 @@
+proxy:
+  '/costscope':
+    # Route through local mock backend proxy (demo) on PORT (default 7008)
+    target: 'http://localhost:7008/api/costscope'
+
+discovery:
+  endpoints:
+    # Correct shape is an array of objects, not a mapping. Each requires type,name,target.
+    - type: plugin
+      name: costscope
+      target: http://localhost:7008/api/costscope

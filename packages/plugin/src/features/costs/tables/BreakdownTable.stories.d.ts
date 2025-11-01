@@ -1,0 +1,12 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { BreakdownTable } from './BreakdownTable';
+declare const meta: Meta<typeof BreakdownTable>;
+export default meta;
+type Story = StoryObj<typeof BreakdownTable>;
+export declare const Default: Story;
+export declare const Loading: Story;
+export declare const Skeleton: Story;
+export declare const ErrorState: Story;
+export declare const Empty: Story;
+export declare const WithV2: Story;
+export declare const HighContrast: Story;

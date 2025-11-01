@@ -1,0 +1,54 @@
+# CODEOWNERS
+
+# Format: pattern owners
+
+# Documentation: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Global default owners (fallback)
+
+-       @dev404ai
+
+# Source code (plugin)
+
+/src/ @dev404ai
+
+# Contracts / generated types (shared contracts workspace)
+
+/packages/contracts/ @dev404ai
+
+# Scripts & tooling
+
+/scripts/ @dev404ai
+
+# Documentation & markdown
+
+/\*.md @dev404ai
+/docs/ @dev404ai
+
+# CI workflows (add when workflows exist)
+
+/.github/workflows/ @dev404ai
+
+# Security related files
+
+/SECURITY.md @dev404ai
+/CODE_OF_CONDUCT.md @dev404ai
+
+# Dependency / build configs
+
+/package.json @dev404ai
+/tsconfig.json @dev404ai
+
+# ESLint custom rules
+
+/eslint-rules/ @dev404ai
+
+# Issue / PR templates (this folder)
+
+/.github/ @dev404ai
+
+# Optional: lock to specific reviewers for release script changes
+
+/scripts/release-check.js @dev404ai
+
+# END

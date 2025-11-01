@@ -1,0 +1,73 @@
+name: Storybook tests
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/storybook-tests.yml"
+      - ".storybook/**"
+      - "tests-storybook/**"
+      - "packages/plugin/**"
+      - "package.json"
+      - "yarn.lock"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/storybook-tests.yml"
+      - ".storybook/**"
+      - "tests-storybook/**"
+      - "packages/plugin/**"
+      - "package.json"
+      - "yarn.lock"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: storybook-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+      STORYBOOK_URL: http://localhost:6006
+      SB_MAX_STORIES: 200
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "20"
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Install Playwright (Chromium)
+        run: npx playwright install --with-deps chromium
+
+      - name: Make helper executable
+        if: ${{ hashFiles('tmp-run-storybook-tests.sh') != '' }}
+        run: chmod +x ./tmp-run-storybook-tests.sh
+
+      - name: Run Storybook tests (dev server + Playwright)
+        if: ${{ hashFiles('tmp-run-storybook-tests.sh') != '' }}
+        run: |
+          ./tmp-run-storybook-tests.sh
+
+      - name: Skip Storybook tests (helper not present)
+        if: ${{ hashFiles('tmp-run-storybook-tests.sh') == '' }}
+        run: |
+          echo "Helper tmp-run-storybook-tests.sh not found; skipping Storybook tests."
+
+      - name: Upload artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook-tests-artifacts
+          path: |
+            tests-storybook/artifacts
+            /tmp/sb-dev.log

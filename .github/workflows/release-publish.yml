@@ -1,0 +1,68 @@
+name: Release (npm publish with provenance)
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run (use npm pack instead of publish)"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  noop-act:
+    if: ${{ github.actor == 'nektos/act' && github.event_name != 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: noop (act)
+        run: echo "Skipping npm publish under act; use workflow_dispatch with dry_run to test."
+
+  publish:
+    if: ${{ github.actor != 'nektos/act' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write # needed for npm provenance and publishing packages
+      id-token: write # needed for npm provenance (OIDC token)
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: |
+          corepack enable || true
+          yarn install --frozen-lockfile
+
+      - name: Build
+        run: |
+          yarn build
+          yarn size || true
+
+      - name: Verify package is publishable
+        run: node -e "const p=require('./package.json'); if(p.private){console.error('package.json has private:true — aborting publish'); process.exit(1)} else {console.log('package is publishable')}"
+
+      - name: Publish to npm (or pack when dry-run)
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          PUBLISH_DRY_RUN: ${{ vars.PUBLISH_DRY_RUN }}
+          DISPATCH_DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          if { [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${DISPATCH_DRY_RUN}" = "true" ]; } || [ "${PUBLISH_DRY_RUN}" = "true" ]; then
+            echo "DRY RUN: creating npm tarball (npm pack) instead of publishing"
+            npm pack
+            exit 0
+          fi
+          npm publish --provenance --access public

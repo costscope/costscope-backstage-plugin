@@ -1,0 +1,95 @@
+name: Weekly Resolutions Check
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: "weekly-resolutions-check"
+  cancel-in-progress: true
+
+jobs:
+  noop-act:
+    if: ${{ github.actor == 'nektos/act' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: noop (act)
+        run: echo "Skipping resolutions-weekly under act; requires GH API permissions."
+
+  resolutions:
+    name: Check removable security resolutions
+    runs-on: ubuntu-latest
+    if: ${{ github.actor != 'nektos/act' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+          cache: "yarn"
+
+      - name: Install deps
+        run: |
+          corepack enable || true
+          yarn install --frozen-lockfile
+
+      - name: Run resolutions check
+        id: check
+        run: |
+          set -euo pipefail
+          yarn resolutions:check | tee resolutions.out
+          if grep -q "Potentially removable resolutions" resolutions.out; then
+            echo "has_candidates=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_candidates=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Open/Update tracking issue with candidates
+        if: steps.check.outputs.has_candidates == 'true'
+        run: |
+          set -euo pipefail
+          TITLE="Security Resolutions: candidates for removal"
+          BODY_FILE=issue_body.txt
+          {
+            echo "Weekly check found potential pins that can be removed from SECURITY-RESOLUTIONS.md."
+            echo
+            echo 'Output (yarn resolutions:check):'
+            echo '```'
+            cat resolutions.out
+            echo '```'
+            echo
+            echo 'Next steps:'
+            echo '1) Verify upstream Backstage deps include fixed ranges.'
+            echo '2) Remove corresponding entries from package.json "resolutions".'
+            echo '3) Update SECURITY-RESOLUTIONS.md (drop rows) and run yarn install + yarn audit.'
+            echo
+            echo 'File: SECURITY-RESOLUTIONS.md'
+          } > "$BODY_FILE"
+          existing=$(gh issue list --search "$TITLE" --state open --limit 1 --json number --jq '.[0].number') || true
+          if [ -n "$existing" ]; then
+            # Add a fresh comment to keep history, and update labels
+            gh issue comment "$existing" --body-file "$BODY_FILE"
+            gh issue edit "$existing" --add-label security --add-label automation || true
+          else
+            gh issue create --title "$TITLE" --label security --label automation --body-file "$BODY_FILE"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Close tracking issue when no candidates
+        if: steps.check.outputs.has_candidates == 'false'
+        run: |
+          set -euo pipefail
+          TITLE="Security Resolutions: candidates for removal"
+          existing=$(gh issue list --search "$TITLE" --state open --limit 1 --json number --jq '.[0].number') || true
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "Weekly check: no removable pins detected. Closing until new candidates appear."
+            gh issue close "$existing" || true
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

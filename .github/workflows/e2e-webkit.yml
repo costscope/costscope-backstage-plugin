@@ -1,0 +1,72 @@
+name: E2E WebKit (Optional)
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  noop-act:
+    if: ${{ github.actor == 'nektos/act' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: noop (act)
+        run: echo "Skipping E2E WebKit under act; this workflow is intended for GH runners only."
+
+  e2e-webkit:
+    # Skip under nektos/act; allow on schedule or GH runners only
+    if: ${{ github.actor != 'nektos/act' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    continue-on-error: true # do not fail repository status while stabilizing WebKit
+    env:
+      E2E_BROWSERS: webkit
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+          cache: "yarn"
+
+      - name: Install deps
+        run: yarn --frozen-lockfile
+
+      - name: Install Playwright Browser
+        run: npx playwright install --with-deps $E2E_BROWSERS
+
+      - name: Run E2E tests (WebKit)
+        run: E2E_BROWSERS=$E2E_BROWSERS yarn test:e2e
+        env:
+          CI: true
+
+      - name: Upload Playwright artifacts (always)
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: playwright-artifacts-webkit
+          path: |
+            tests-e2e/artifacts
+            playwright-report
+          if-no-files-found: ignore
+
+      - name: Upload JUnit report (always)
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: e2e-junit-webkit
+          path: test-results/e2e-junit.xml
+          if-no-files-found: ignore
+
+      - name: Add summary (always)
+        if: always()
+        run: |
+          if [ -f test-results/e2e-junit.xml ]; then
+            total=$(grep -o 'tests="[0-9]*"' test-results/e2e-junit.xml | head -1 | sed -E 's/.*="([0-9]+)"/\1/')
+            fails=$(grep -o 'failures="[0-9]*"' test-results/e2e-junit.xml | head -1 | sed -E 's/.*="([0-9]+)"/\1/')
+            echo '### E2E WebKit (optional)' >> $GITHUB_STEP_SUMMARY
+            echo "Tests: $total  Failures: $fails" >> $GITHUB_STEP_SUMMARY
+          else
+            echo '### E2E WebKit (optional)' >> $GITHUB_STEP_SUMMARY
+            echo 'JUnit file missing' >> $GITHUB_STEP_SUMMARY
+          fi

@@ -1,0 +1,124 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  noop-act:
+    if: ${{ github.actor == 'nektos/act' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: noop (act)
+        run: echo "Skipping CI under act; full matrix runs on GitHub runners."
+
+  quality:
+    name: Quality (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    if: ${{ github.actor != 'nektos/act' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+
+      - name: Setup Node ${{ matrix.node }}
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: ${{ matrix.node }}
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build contracts (workspace)
+        run: yarn workspace @costscope/contracts build
+
+      - name: Contracts spec hash
+        run: yarn workspace @costscope/contracts spec:hash
+
+      - name: Spec sync check (OpenAPI types + runtime descriptor)
+        run: yarn workspace @costscope/backstage-plugin spec:check
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Typecheck
+        run: yarn typecheck
+
+      - name: Run tests
+        run: yarn test --ci
+
+      - name: Build (plugin bundle)
+        run: yarn build
+
+      - name: API diff (PR annotation)
+        if: github.event_name == 'pull_request' && matrix.node == 20
+        run: |
+          # Generate API diff markdown at api-diff.md
+          yarn api:diff
+
+      - name: Comment API changes on PR (sticky)
+        if: github.event_name == 'pull_request' && matrix.node == 20
+        uses: marocchino/sticky-pull-request-comment@773744901bac0e8cbb5a0dc842800d45e9b2b405
+        with:
+          header: api-surface
+          path: api-diff.md
+
+      - name: Annotate API changes in workflow summary
+        if: github.event_name == 'pull_request' && matrix.node == 20
+        run: |
+          node scripts/api-annotate.js || true
+
+      - name: API Surface Check
+        run: |
+          # Fails if public API changed without updating snapshot (run `yarn api:snapshot` locally to update)
+          yarn api:check:strict
+
+      - name: Size Limit
+        run: yarn workspace @costscope/backstage-plugin size
+
+      - name: Production dependency audit (fail on high/critical)
+        id: audit
+        continue-on-error: true # capture results then decide fail logic
+        working-directory: packages/plugin
+        run: |
+          set -euo pipefail
+          # npm audit requires a lockfile; generate a temporary one if absent
+          if [ ! -f package-lock.json ]; then
+            npm install --package-lock-only --ignore-scripts --no-audit >/dev/null 2>&1 || true
+          fi
+          npm audit --omit=dev --json > audit.json || true
+          echo "Vulnerability summary:" && cat audit.json | jq '.metadata.vulnerabilities'
+          HIGH=$(jq '.metadata.vulnerabilities.high + .metadata.vulnerabilities.critical' audit.json)
+          echo "high_or_critical=$HIGH" >> $GITHUB_OUTPUT
+      - name: Fail if high / critical vulnerabilities present
+        if: steps.audit.outputs.high_or_critical != '0'
+        run: |
+          echo "High / Critical vulnerabilities detected (count=${{ steps.audit.outputs.high_or_critical }})." >&2
+          exit 1
+
+      - name: Upload audit artifact (always)
+        if: ${{ always() && steps.audit.outputs.high_or_critical != '' && github.actor != 'nektos/act' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: npm-audit-${{ matrix.node }}
+          path: packages/plugin/audit.json
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "Node version: ${{ matrix.node }}" >> $GITHUB_STEP_SUMMARY
+          if [ -f packages/plugin/audit.json ]; then
+            echo '\n### Audit Summary' >> $GITHUB_STEP_SUMMARY
+            cat packages/plugin/audit.json | jq '.metadata.vulnerabilities' >> $GITHUB_STEP_SUMMARY
+          fi

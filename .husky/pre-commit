@@ -1,0 +1,13 @@
+# Run fast quality gates before allowing commit
+echo "[husky] Running pre-commit checks (lint-staged, typecheck, fast tests)"
+
+# 1. Lint only staged files (with fixes) via lint-staged
+lint-staged || exit 1
+
+# 2. Type check whole project (fast enough for plugin size)
+yarn typecheck || exit 1
+
+# 3. Run only related tests for staged files (fast path). Falls back to no-op if no relevant tests.
+FAST_TESTS=1 yarn test:fast || exit 1
+
+echo "[husky] All pre-commit checks passed"

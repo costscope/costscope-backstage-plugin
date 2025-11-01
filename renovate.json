@@ -1,0 +1,37 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "schedule": ["before 4am on Tuesday"],
+  "timezone": "UTC",
+  "labels": ["dependencies"],
+  "reviewers": ["example-maintainer"],
+  "packageRules": [
+    {
+      "description": "Group Backstage packages",
+      "groupName": "Backstage packages",
+      "matchPackagePatterns": ["@backstage/*"],
+      "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
+      "description": "Group TypeScript ESLint packages",
+      "groupName": "TypeScript ESLint",
+      "matchPackagePatterns": ["@typescript-eslint/*"],
+      "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
+      "description": "Ignore major Backstage updates",
+      "matchPackagePatterns": ["@backstage/*"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true
+  },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 4am on Tuesday"]
+  }
+}

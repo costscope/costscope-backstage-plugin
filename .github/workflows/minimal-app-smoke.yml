@@ -1,0 +1,44 @@
+name: minimal-app-smoke
+
+on:
+  pull_request:
+    paths:
+      - "packages/plugin/**"
+      - "examples/minimal-app/**"
+      - ".github/workflows/minimal-app-smoke.yml"
+  push:
+    branches: [main]
+    paths:
+      - "packages/plugin/**"
+      - "examples/minimal-app/**"
+  workflow_dispatch: {}
+
+jobs:
+  noop-act:
+    if: ${{ github.actor == 'nektos/act' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: noop (act)
+        run: echo "Skipping minimal-app-smoke under act."
+
+  build-minimal:
+    runs-on: ubuntu-latest
+    if: ${{ github.actor != 'nektos/act' }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+          cache: "yarn"
+      - name: Install root deps
+        run: yarn install --frozen-lockfile
+      - name: Build plugin (size build)
+        run: yarn workspace @costscope/backstage-plugin build:size
+      - name: Build minimal app
+        working-directory: examples/minimal-app
+        run: |
+          yarn install --frozen-lockfile
+          yarn build 2>/dev/null || echo 'No build script; relying on dev server only'
+      - name: Smoke import test
+        run: node -e "require.resolve('@costscope/backstage-plugin') && console.log('import ok')"
