@@ -112,7 +112,7 @@
     "babel-loader": "^10.0.0",
     "chromatic": "^11.0.0",
     "cors": "^2.8.5",
-    "esbuild": "^0.21.0",
+    "esbuild": "^0.25.11",
     "eslint": "^9.0.0",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-react": "^7.34.0",
