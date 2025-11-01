@@ -42,7 +42,7 @@ jobs:
         run: yarn build-storybook
 
       - name: Publish to Chromatic
-        uses: chromaui/action@016b2b6bd92fef54e5764ea1f15ada32f65939ce
+        uses: chromaui/action@1cfa065cbdab28f6ca3afaeb3d761383076a35aa
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
