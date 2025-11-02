@@ -36,8 +36,7 @@ if command -v yarn >/dev/null 2>&1; then
   echo "[devcontainer] Running husky prepare"
   yarn prepare || true
 else
-  echo "[devcontainer] Yarn not present, falling back to npm"
-  npm install --legacy-peer-deps || true
+  echo "[devcontainer] Yarn not present; skipping npm fallback to avoid unpinned installs"
 fi
 
 echo "[devcontainer] Running initial typecheck"

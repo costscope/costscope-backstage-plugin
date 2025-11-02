@@ -13,6 +13,9 @@ on:
       - "examples/minimal-app/**"
   workflow_dispatch: {}
 
+permissions:
+  contents: read
+
 jobs:
   noop-act:
     if: ${{ github.actor == 'nektos/act' }}

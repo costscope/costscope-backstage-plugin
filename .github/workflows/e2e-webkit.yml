@@ -3,6 +3,9 @@ name: E2E WebKit (Optional)
 on:
   workflow_dispatch: {}
 
+permissions:
+  contents: read
+
 jobs:
   noop-act:
     if: ${{ github.actor == 'nektos/act' }}

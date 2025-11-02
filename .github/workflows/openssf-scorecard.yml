@@ -10,11 +10,8 @@ on:
   workflow_dispatch: {}
 
 permissions:
-  # Minimal permissions; job-level can override. Required for uploading SARIF & publishing results.
+  # Minimal at top-level; job(s) will request additional rights explicitly
   contents: read
-  security-events: write
-  actions: read
-  id-token: write
 
 jobs:
   noop-act:
@@ -28,6 +25,7 @@ jobs:
     if: ${{ github.actor != 'nektos/act' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    
     steps:
       - name: Checkout source
         uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955

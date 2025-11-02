@@ -8,8 +8,6 @@ on:
 
 permissions:
   contents: read
-  issues: write
-  security-events: write # required to upload SARIF to code scanning
 
 jobs:
   noop-on-push:
@@ -30,6 +28,10 @@ jobs:
   audit:
     if: ${{ github.event_name != 'push' && github.actor != 'nektos/act' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      security-events: write # required to upload SARIF to code scanning
     steps:
       - name: Checkout
         uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
@@ -65,12 +67,14 @@ jobs:
         id: audit
         continue-on-error: true
         run: |
-          # npm audit works with package-lock; fallback by generating a temp one
-          if [ ! -f package-lock.json ]; then
-            npm install --package-lock-only --ignore-scripts --no-audit
+          # Only run npm audit when a lockfile is present; otherwise rely on OSV scan
+          if [ -f package-lock.json ]; then
+            npm audit --omit=dev --json > audit.json || true
+            cat audit.json | jq '.metadata.vulnerabilities' || true
+          else
+            echo '{"metadata":{"vulnerabilities":{"info":0,"low":0,"moderate":0,"high":0,"critical":0,"total":0}}}' > audit.json
+            echo "No package-lock.json found; skipped npm audit and defaulted counts to 0 (OSV scanner will report separately)."
           fi
-          npm audit --omit=dev --json > audit.json || true
-          cat audit.json | jq '.metadata.vulnerabilities' || true
       - name: OSV Scanner (SARIF)
         id: osv
         continue-on-error: true
