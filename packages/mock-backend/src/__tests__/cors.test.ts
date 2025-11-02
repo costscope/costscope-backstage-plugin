@@ -5,12 +5,13 @@ import { createMockBackendApp } from '../../src/server';
 describe('mock-backend CORS', () => {
   const ALLOWED = 'http://allowed.example';
 
-  it('allows whitelisted origin with credentials', async () => {
+  it('allows whitelisted origin without credentials', async () => {
     const { app } = createMockBackendApp({ frontendOrigin: ALLOWED });
     const res = await request(app).get('/health').set('Origin', ALLOWED);
     expect(res.status).toBe(200);
     expect(res.headers['access-control-allow-origin']).toBe(ALLOWED);
-    expect(res.headers['access-control-allow-credentials']).toBe('true');
+    // Credentials are intentionally not enabled for security.
+    expect(res.headers['access-control-allow-credentials']).toBeUndefined();
   });
 
   it('rejects non-whitelisted origin', async () => {

@@ -54,10 +54,10 @@ export function createMockBackendApp(opts?: MockBackendOptions) {
 
     if (isWhitelisted || isLocalhostAllowed) {
       res.setHeader('Access-Control-Allow-Origin', origin);
-      // Only send credentials for explicit whitelist matches; not for wildcard localhost allowances.
-      if (isWhitelisted) {
-        res.setHeader('Access-Control-Allow-Credentials', 'true');
-      }
+      // Do NOT enable credentials. Keeping credentials disabled avoids CORS credential leakage
+      // risks with dynamically-reflected origins (even when whitelisted via env vars).
+      // If a future use case requires credentials, implement a static, code-level whitelist
+      // and add explicit tests before re-enabling.
       res.setHeader('Vary', 'Origin');
     }
 

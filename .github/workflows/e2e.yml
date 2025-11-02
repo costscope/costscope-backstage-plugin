@@ -43,7 +43,7 @@ jobs:
         run: npx playwright install --with-deps $E2E_BROWSERS
 
       - name: Run E2E tests
-        run: E2E_BROWSERS=$E2E_BROWSERS yarn test:e2e
+        run: E2E_BROWSERS=$E2E_BROWSERS yarn e2e:full
         env:
           CI: true
 

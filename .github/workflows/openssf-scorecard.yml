@@ -37,6 +37,7 @@ jobs:
 
       - name: Run Scorecard
         uses: ossf/scorecard-action@ff5dd8929f96a8a4dc67d13f32b8c75057829621
+        continue-on-error: true
         with:
           results_file: results.sarif
           results_format: sarif

@@ -34,7 +34,7 @@ describe('mock-backend CORS (dev)', () => {
     await new Promise<void>(resolve => server.close(() => resolve()));
   });
 
-  test('OPTIONS preflight allows http://localhost:3001', async () => {
+  test('OPTIONS preflight allows http://localhost:3001 (no credentials)', async () => {
     const res = await request(server)
       .options('/api/costscope')
       .set('Origin', 'http://localhost:3001')
@@ -42,7 +42,8 @@ describe('mock-backend CORS (dev)', () => {
 
     expect([204, 200]).toContain(res.status);
     expect(res.headers['access-control-allow-origin']).toBe('http://localhost:3001');
-    expect(res.headers['access-control-allow-credentials']).toBe('true');
+    // Credentials are intentionally not enabled for security.
+    expect(res.headers['access-control-allow-credentials']).toBeUndefined();
   });
 
   test('GET returns Access-Control-Allow-Origin for localhost origin', async () => {

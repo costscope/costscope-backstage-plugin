@@ -64,16 +64,40 @@ app.use((req, _res, next) => {
 });
 
 app.use((req, res, next) => {
-  // Error injection (timeout or status code)
+  // Error injection (bounded timeout or explicit status code)
   // New alias: `?timeout` will behave like `?forceError=timeout`
-  if (req.query.timeout !== undefined) {
-    return; // deliberately never calling next() to simulate hanging request
+  // IMPORTANT: To avoid resource exhaustion, simulated timeouts are bounded
+  // and will auto-complete with a 504 after a short period.
+  const MAX_TIMEOUT_MS = 5000; // cap simulated hang to 5s
+  const parseNum = (v: unknown): number | undefined => {
+    // Accept only positive integer strings or finite numbers; treat '' and non-numeric as undefined
+    if (typeof v === 'number') return Number.isFinite(v) ? v : undefined;
+    if (typeof v === 'string' && v.trim() !== '' && /^\d+$/.test(v.trim())) {
+      return parseInt(v.trim(), 10);
+    }
+    return undefined;
+  };
+
+  const requestSimulatedTimeout =
+    req.query.timeout !== undefined || String(req.query.forceError || '') === 'timeout';
+
+  if (requestSimulatedTimeout) {
+  const fromQuery = parseNum(req.query.timeout as any);
+    const requested = fromQuery ?? MAX_TIMEOUT_MS;
+    const delay = Math.max(0, Math.min(MAX_TIMEOUT_MS, requested));
+
+    // Set a bounded timer and clear it if the client disconnects.
+    const timer = setTimeout(() => {
+      if (!res.headersSent) {
+        res.status(504).json({ error: 'Simulated timeout (bounded)', timeoutMs: delay });
+      }
+    }, delay);
+    res.on('close', () => clearTimeout(timer));
+    return; // do not call next(); this middleware will respond within the bound
   }
+
   if (req.query.forceError) {
     const v = String(req.query.forceError);
-    if (v === 'timeout') {
-      return; // deliberately never calling next() to simulate hanging request
-    }
     const code = Number(v) || 500;
     return res.status(code).json({ error: `Forced error ${code}` });
   }
