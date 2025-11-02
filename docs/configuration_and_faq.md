@@ -118,6 +118,30 @@ costscope:
     currency: USD
 ```
 
+## Mock backend CORS
+
+The local mock backend (used by dev and some tests) enforces a strict CORS whitelist when credentials are involved:
+
+- FRONTEND_ORIGIN: Single allowed frontend origin (default http://localhost:3000).
+- FRONTEND_ORIGINS: Comma-separated list of allowed origins. Each must exactly match the request Origin header.
+- FRONTEND_ALLOW_LOCALHOST: When set to true, additionally allows any http://localhost:<port> and http://127.0.0.1:<port> origins. Disabled by default for security.
+
+Notes:
+
+- The server only sets Access-Control-Allow-Origin and Access-Control-Allow-Credentials when the origin is explicitly allowed. The special origin value null is never allowed.
+- For preflight (OPTIONS), requested headers are reflected instead of using a wildcard when credentials are present.
+
+### Localhost allowances vs credentials
+
+- When `FRONTEND_ALLOW_LOCALHOST=true`, the mock backend will allow `Origin: http://localhost:<port>` (and `127.0.0.1:<port>`) for convenience in devcontainers.
+- Credentials are only enabled for exact, explicit whitelisted origins (`FRONTEND_ORIGIN` or entries in `FRONTEND_ORIGINS`). For localhost wildcard allowances, the server will not set `Access-Control-Allow-Credentials`.
+- If you need credentials in local development, set `FRONTEND_ORIGINS=http://localhost:3001` (or your exact origin) instead of relying on the localhost wildcard.
+
+### Proxy SSRF hardening
+
+- The mock backend’s proxy for `/api/costscope` constructs outbound requests using a fixed backend base URL (from `MOCK_TARGET`) and only appends the normalized path and query that follow the `/api/costscope` prefix.
+- Absolute URLs, different schemes/hosts, or attempts to escape the prefix are rejected. This prevents Server-Side Request Forgery (SSRF) against internal services during development.
+
 ## Project Scoping
 
 Annotate catalog entities:

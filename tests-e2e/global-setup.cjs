@@ -82,10 +82,18 @@ async function waitForDevProxy(baseUrl = 'http://localhost:3000', { timeoutMs = 
 
 async function killPort(port) {
   try {
-    await new Promise(resolve => {
-      const killer = spawn('bash', ['-c', `lsof -ti:${port} | xargs -r kill -9`], { stdio: 'ignore' });
-      killer.on('exit', resolve);
-    });
+    const { execFileSync } = require('child_process');
+    let out = '';
+    try {
+      // Get PIDs listening on the port; returns one PID per line
+      out = execFileSync('lsof', ['-ti', `:${String(port)}`], { stdio: ['ignore', 'pipe', 'ignore'] }).toString();
+    } catch {
+      return; // lsof not available or no PIDs
+    }
+    const pids = out.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+    for (const pid of pids) {
+      try { process.kill(Number(pid), 'SIGKILL'); } catch { /* ignore */ }
+    }
   } catch { /* ignore */ }
 }
 

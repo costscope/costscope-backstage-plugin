@@ -19,6 +19,7 @@ import type {
 } from './types';
 export { costscopeApiRef } from './apiRef';
 
+/** @public */
 export interface CostscopeClientOptions {
   discoveryApi: any;
   fetchApi: any;
@@ -43,6 +44,7 @@ export interface CostscopeClientOptions {
   configApi?: any;
 }
 
+/** @public */
 export class CostscopeClient {
   private transportDeps: TransportDeps;
   private retryCfg: RetryConfig;

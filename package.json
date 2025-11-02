@@ -14,8 +14,8 @@
   ],
   "scripts": {
     "prepare": "husky",
-    "lint": "eslint 'packages/plugin/src/**/*.{ts,tsx}'",
-    "lint:fix": "eslint 'packages/plugin/src/**/*.{ts,tsx}' --fix",
+    "lint": "eslint 'packages/plugin/src/**/*.{ts,tsx}' 'scripts/**/*.{js,ts,cjs,mjs}' 'packages/**/scripts/**/*.{js,ts,cjs,mjs}' 'tests-e2e/**/*.cjs'",
+    "lint:fix": "eslint 'packages/plugin/src/**/*.{ts,tsx}' 'scripts/**/*.{js,ts,cjs,mjs}' 'packages/**/scripts/**/*.{js,ts,cjs,mjs}' 'tests-e2e/**/*.cjs' --fix",
     "lint:types": "ESLINT_TYPES=1 eslint 'packages/plugin/src/**/*.{ts,tsx}'",
     "lint:types:fix": "ESLINT_TYPES=1 eslint 'packages/plugin/src/**/*.{ts,tsx}' --fix",
     "format": "prettier --write .",
@@ -31,6 +31,7 @@
     "dev:full": "yarn workspace @costscope/backstage-plugin dev:full",
     "storybook:dev": "yarn workspace @costscope/backstage-plugin storybook -- --config-dir ../../.storybook --initial-path /docs/costscope-pages-costscopepage--docs --no-open",
     "storybook:build": "yarn workspace @costscope/backstage-plugin build-storybook -- --config-dir ../../.storybook --output-dir storybook-static",
+    "build-storybook": "yarn --cwd packages/plugin workspace @costscope/backstage-plugin build-storybook -- --config-dir ../../.storybook --output-dir ../../storybook-static",
     "verify": "yarn recursion:check && yarn workspace @costscope/backstage-plugin verify",
     "demo": "yarn workspace @costscope/backstage-plugin demo",
     "demo:front": "yarn workspace @costscope/backstage-plugin demo:front",

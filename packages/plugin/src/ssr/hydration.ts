@@ -6,6 +6,7 @@ import { qk } from '../queryKeys';
 /**
  * SSR Prefetch Manifest type used to hydrate React Query cache on the client.
  * Keep this minimal and stable; avoid including any sensitive info.
+ * @public
  */
 export type CostscopePrefetchManifest = {
   version: 1;

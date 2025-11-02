@@ -9,6 +9,7 @@ import { useClientStaleTime } from './useClientStaleTime';
 /**
  * Mini hook to fetch providers list via CostscopeClient.getProviders.
  * React Query staleTime is aligned with the client's cacheTtlMs.
+ * @public
  */
 export function useProviders() {
   const api: any = useApi(costscopeApiRef);

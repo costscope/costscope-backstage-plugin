@@ -5,9 +5,10 @@
  2. Prints top modules by size
  3. Emits dist-analyze/bundle-analyze.html with a basic table (no treemap due to source map issues)
 */
-const { build } = require('esbuild');
 const fs = require('fs');
 const path = require('path');
+
+const { build } = require('esbuild');
 
 (async function main() {
   try {

@@ -16,8 +16,8 @@ function ensureDist() {
     // Using execSync instead of spawning yarn script inside workspace for simplicity.
     // eslint-disable-next-line no-console
     console.log('[live-contract] dist missing – building plugin dist...');
-    const cp = require('child_process');
-    cp.execSync('yarn build', { cwd: path.join(__dirname, '../../..'), stdio: 'inherit' });
+  const cp = require('child_process');
+  cp.execFileSync('yarn', ['build'], { cwd: path.join(__dirname, '../../..'), stdio: 'inherit' });
   }
   return distIndex;
 }

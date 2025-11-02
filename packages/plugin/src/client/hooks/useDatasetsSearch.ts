@@ -6,6 +6,7 @@ import { qk } from '../../utils/queryKeys';
 
 import { useClientStaleTime } from './useClientStaleTime';
 
+/** @public */
 export interface UseDatasetsSearchParams {
   project?: string;
   provider?: string;
@@ -24,6 +25,7 @@ export interface UseDatasetsSearchParams {
  * derived from filter params so multiple components share cache.
  * Uses staleTime aligned with client's cacheTtlMs to avoid duplicate refetch loops
  * when internal TTL cache is also enabled.
+ * @public
  */
 export function useDatasetsSearch(params: UseDatasetsSearchParams) {
   const { enabled = true, ...filters } = params || {};

@@ -26,7 +26,6 @@
 /* eslint-env node */
 /* global process */
 /* eslint-disable import/order */
-/* eslint-disable no-undef */
 // Prefer ESM-style imports to remain compatible whether ts-node compiles as CJS or ESM
 import * as nodeCrypto from 'crypto';
 import cors from 'cors';
@@ -47,11 +46,17 @@ app.use(
 app.use(express.json());
 
 app.use((req, _res, next) => {
-  // Allow simple latency simulation
-  const delayParam = req.query.delay ? Number(req.query.delay) : undefined;
-  const envLatency = process.env.LATENCY_MS ? Number(process.env.LATENCY_MS) : 0;
-  const latency = delayParam || envLatency;
-  if (latency && latency > 0) {
+  // Allow simple latency simulation (bounded to prevent resource exhaustion)
+  const MAX_DELAY_MS = 5000; // cap delay to 5s to avoid unbounded timers
+  const parseNum = (v: unknown): number | undefined => {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : undefined;
+  };
+  const delayParam = req.query.delay !== undefined ? parseNum(req.query.delay) : undefined;
+  const envLatency = process.env.LATENCY_MS !== undefined ? parseNum(process.env.LATENCY_MS) : 0;
+  const requested = (delayParam ?? envLatency ?? 0) as number;
+  const latency = Math.max(0, Math.min(MAX_DELAY_MS, requested));
+  if (latency > 0) {
     setTimeout(next, latency);
   } else {
     next();
@@ -473,7 +478,6 @@ const server = app.listen(port, () => {
 });
 
 // Export for CommonJS (tests importing mock-server.cjs) and ES module consumers.
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 if (typeof module !== 'undefined') module.exports = server;
 export default server;

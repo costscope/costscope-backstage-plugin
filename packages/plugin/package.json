@@ -6,7 +6,10 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "sideEffects": false,
+  "sideEffects": [
+    "dist/chunk-*.mjs",
+    "dist/chunk-*.js"
+  ],
   "keywords": [
     "backstage",
     "backstage-plugin",
@@ -194,7 +197,7 @@
     "typecheck:watch": "tsc -p tsconfig.json --watch --preserveWatchOutput false",
     "example:start": "yarn workspace app start",
     "dev": "run-p mock build:watch",
-    "size": "NODE_ENV=production yarn build:size && size-limit --config ../../.size-limit.cjs",
+    "size": "NODE_ENV=production yarn build:size && ESBUILD_LOG_LEVEL=silent size-limit --config ../../.size-limit.cjs",
     "clean": "rimraf dist dist-types temp coverage .jest-cache tsconfig.tsbuildinfo tsconfig.types.tsbuildinfo",
     "spec:hash": "yarn workspace @costscope/contracts spec:hash",
     "spec:descriptor": "node ../../scripts/spec-descriptor-check.js",

@@ -35,7 +35,8 @@ function detectSpecPath() {
 
 function gitShow(fileRelPath, ref) {
   try {
-    return cp.execSync(`git show ${ref}:${fileRelPath}` , {
+    // Use execFileSync to avoid shell interpretation of ref/file path
+    return cp.execFileSync('git', ['show', `${ref}:${fileRelPath}`], {
       cwd: REPO_ROOT,
       encoding: 'utf8',
       stdio: ['ignore', 'pipe', 'ignore'],
@@ -51,7 +52,8 @@ function guessBaseRef() {
   if (envBase && envBase.trim()) return envBase.trim();
   // Try origin/main, then main
   try {
-    cp.execSync('git rev-parse --verify origin/main', { cwd: REPO_ROOT, stdio: 'ignore' });
+    // Avoid shell: verify branch existence via execFileSync
+    cp.execFileSync('git', ['rev-parse', '--verify', 'origin/main'], { cwd: REPO_ROOT, stdio: 'ignore' });
     return 'origin/main';
   } catch {
     return 'main';

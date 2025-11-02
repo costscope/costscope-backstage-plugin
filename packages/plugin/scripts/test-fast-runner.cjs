@@ -10,16 +10,16 @@
  *  - Skips mock server startup by setting FAST_TESTS=1 (global setup respects this)
  */
 
-const { execSync, spawnSync } = require('child_process');
+const { execFileSync, spawnSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
 const repoRoot = path.resolve(__dirname, '..', '..', '..');
 const pkgRoot = path.resolve(__dirname, '..');
 
-function gitList(baseCmd) {
+function gitList(args) {
   try {
-    const out = execSync(baseCmd, { cwd: repoRoot, stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+    const out = execFileSync('git', args, { cwd: repoRoot, stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
     if (!out) return [];
     return out.split(/\n+/).filter(f => f);
   } catch {
@@ -28,9 +28,9 @@ function gitList(baseCmd) {
 }
 
 // 1. Gather candidate changed files
-let changed = gitList('git diff --cached --name-only');
+let changed = gitList(['diff', '--cached', '--name-only']);
 if (changed.length === 0) {
-  changed = gitList('git diff --name-only HEAD');
+  changed = gitList(['diff', '--name-only', 'HEAD']);
 }
 
 // Filter to TS/TSX source files inside plugin

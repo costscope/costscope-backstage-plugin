@@ -20,7 +20,7 @@ function ensureDist() {
   const idx = distIndexPath();
     if (!fs.existsSync(idx)) {
       console.log('[live-contract] dist missing – building (yarn build)...');
-      cp.execSync('yarn build', { cwd: pluginRoot(), stdio: 'inherit' });
+  cp.execFileSync('yarn', ['build'], { cwd: pluginRoot(), stdio: 'inherit' });
     }
   return idx;
 }

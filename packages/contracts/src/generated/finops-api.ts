@@ -3,6 +3,7 @@
  * Do not make direct changes to the file.
  */
 
+/** @public */
 export interface paths {
     "/providers": {
         parameters: {
@@ -21,7 +22,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description OK */
+                /** description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -59,7 +60,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description OK */
+                /** description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -98,7 +99,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description OK */
+                /** description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -136,7 +137,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description OK */
+                /** description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -175,7 +176,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description OK */
+                /** description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -211,7 +212,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description OK */
+                /** description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -232,6 +233,7 @@ export interface paths {
     };
 }
 export type webhooks = Record<string, never>;
+/** @public */
 export interface components {
     schemas: {
         Provider: {
@@ -271,12 +273,12 @@ export interface components {
         BreakdownRow: {
             dim: string;
             cost: number;
-            /** @description Fractional change vs previous comparable period */
+            /** description Fractional change vs previous comparable period */
             deltaPct: number;
         };
         ActionItem: {
             id: string;
-            /** @enum {string} */
+            /** enum {string} */
             severity: "info" | "warn" | "critical";
             message: string;
         };

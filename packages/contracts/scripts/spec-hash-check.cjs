@@ -1,7 +1,7 @@
 #!/usr/bin/env node
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
 
 const specPath = path.join(__dirname,'..','openapi','finops-api.json');
 const genPath = path.join(__dirname,'..','src','generated','finops-api.ts');

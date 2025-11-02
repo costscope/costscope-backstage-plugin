@@ -1,7 +1,7 @@
 // This file has been automatically migrated to valid ESM format by Storybook.
 import { createRequire } from "node:module";
-import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const require = createRequire(import.meta.url);
@@ -60,6 +60,14 @@ const config: StorybookConfig = {
         '../packages/plugin/src/testing/contractsStorybookMock.ts',
       ),
     };
+
+    // Suppress benign dynamic require warnings from third-party packages scanned by react-docgen
+    config.ignoreWarnings = [
+      ...(config.ignoreWarnings || []),
+      (warning: any) =>
+        typeof warning?.message === 'string' &&
+        warning.message.includes('Critical dependency: the request of a dependency is an expression'),
+    ];
     return config;
   }
 };

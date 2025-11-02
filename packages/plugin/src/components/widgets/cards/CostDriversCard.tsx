@@ -24,6 +24,7 @@ import { CardSection, focusRingSx } from '../../ui/CardSection';
 import { RefreshSmall as RefreshIcon } from '../../ui/Icons';
 import { LiteInfoCard } from '../../ui/LiteInfoCard';
 
+/** @public */
 export interface CostDriversCardProps {
   period?: string;
   project?: string;
@@ -35,6 +36,7 @@ export interface CostDriversCardProps {
  * CostDriversCard – table of top N cost drivers (dimension, cost, delta percent).
  * Keeps implementation light (no pagination / sorting controls yet).
  */
+/** @public */
 export const CostDriversCard = ({ period = 'P30D', project, dimension = 'ServiceCategory', limit = 5 }: CostDriversCardProps) => {
   const api = useApi(costscopeApiRef);
   const { t } = useI18n();

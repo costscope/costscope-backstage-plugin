@@ -1,7 +1,9 @@
-const express = require('express');
 const http = require('http');
+const path = require('path');
 const { URL } = require('url');
+
 const cors = require('cors');
+const express = require('express');
 
 const app = express();
 const PORT = process.env.PORT || 7008;
@@ -37,12 +39,20 @@ function originAllowed(origin) {
 app.use((req, res, next) => {
   const origin = req.headers.origin;
   if (!origin) return next();
-  if (!originAllowed(origin)) return next();
+  const allowed = originAllowed(origin);
+  if (!allowed) return next();
+
+  // Gate credentials strictly to explicit whitelist (or explicit FRONTEND_ORIGIN),
+  // not to dev localhost wildcard allowances.
+  const isExplicitWhitelist = (allowedOrigins ? allowedOrigins.includes(origin) : origin === FRONTEND_ORIGIN);
 
   res.setHeader('Access-Control-Allow-Origin', origin);
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  if (isExplicitWhitelist) {
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+  }
   res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+  res.setHeader('Vary', 'Origin');
 
   if (req.method === 'OPTIONS') {
     return res.status(204).end();
@@ -64,7 +74,23 @@ app.get('/api/catalog/entities', (_req, res) => {
 app.use('/api/costscope', (req, res) => {
   try {
     const targetBase = MOCK_TARGET; // e.g. http://localhost:7007
-    const targetUrl = new URL(req.originalUrl, targetBase);
+    // SSRF hardening: construct target URL from fixed base + normalized path/query only.
+    const BASE_PREFIX = '/api/costscope';
+    if (!req.originalUrl.startsWith(BASE_PREFIX)) {
+      return res.status(400).json({ error: 'Invalid proxy path' });
+    }
+
+    const base = new URL(targetBase);
+    const remainder = req.originalUrl.slice(BASE_PREFIX.length) || '/';
+    const qIndex = remainder.indexOf('?');
+    const pathOnly = qIndex >= 0 ? remainder.slice(0, qIndex) : remainder;
+    const search = qIndex >= 0 ? remainder.slice(qIndex) : '';
+
+    const joinedPath = path.posix.join(base.pathname || '/', pathOnly || '/');
+
+    const targetUrl = new URL(base.toString());
+    targetUrl.pathname = joinedPath;
+    targetUrl.search = search;
 
     const options = {
       method: req.method,
@@ -73,11 +99,13 @@ app.use('/api/costscope', (req, res) => {
 
     const proxyReq = http.request(targetUrl, options, proxyRes => {
       res.statusCode = proxyRes.statusCode || 502;
-      // copy headers
-      Object.entries(proxyRes.headers || {}).forEach(([k, v]) => {
-          // Best-effort set header; ignore individual header errors
-          try { res.setHeader(k, v); } catch (_err) { /* ignore */ }
-        });
+      // copy headers except upstream CORS to keep proxy's CORS decision authoritative
+      const headers = { ...(proxyRes.headers || {}) };
+      delete headers['access-control-allow-origin'];
+      delete headers['access-control-allow-credentials'];
+      Object.entries(headers).forEach(([k, v]) => {
+        try { res.setHeader(k, v); } catch (_err) { /* ignore */ }
+      });
       proxyRes.pipe(res);
     });
 

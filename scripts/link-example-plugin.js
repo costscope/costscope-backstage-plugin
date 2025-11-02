@@ -33,14 +33,22 @@ function ensureSymlink() {
     fs.mkdirSync(scopeDir, { recursive: true });
   }
   try {
-    if (fs.existsSync(linkPath)) {
-      const stat = fs.lstatSync(linkPath);
+    // Use lstatSync to detect broken symlinks as well; existsSync would return false for them
+    let stat = null;
+    try {
+      stat = fs.lstatSync(linkPath);
+    } catch (e) {
+      if (e && e.code !== 'ENOENT') throw e;
+    }
+
+    if (stat) {
       if (stat.isSymbolicLink()) {
         const current = fs.readlinkSync(linkPath);
         if (current === target) {
           console.log('[link:example] existing symlink OK');
           return;
         }
+        // Remove outdated/broken symlink
         fs.unlinkSync(linkPath);
       } else {
         // If a real folder somehow exists, rename it out of the way.
@@ -49,6 +57,8 @@ function ensureSymlink() {
         console.warn('[link:example] moved existing folder to', backup);
       }
     }
+
+    // Create fresh symlink
     fs.symlinkSync(target, linkPath, 'dir');
     console.log('[link:example] symlink created:', linkPath, '->', target);
   } catch (e) {

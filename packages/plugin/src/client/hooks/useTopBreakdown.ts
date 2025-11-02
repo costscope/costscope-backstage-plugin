@@ -6,6 +6,7 @@ import { qk } from '../../utils/queryKeys';
 
 import { useClientStaleTime } from './useClientStaleTime';
 
+/** @public */
 export interface UseTopBreakdownParams {
   /** Dimension/group name (e.g. ServiceCategory, RegionId, ChargeCategory, etc.) */
   dimension: string;
@@ -20,6 +21,7 @@ export interface UseTopBreakdownParams {
 /**
  * useTopBreakdown – thin wrapper over getBreakdown returning the top N rows by cost.
  * Keeps staleTime aligned with CostscopeClient internal TTL to avoid duplicate refetch.
+ * @public
  */
 export function useTopBreakdown({ dimension, period, limit = 5, project }: UseTopBreakdownParams) {
   const api: any = useApi(costscopeApiRef);

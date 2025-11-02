@@ -116,6 +116,35 @@ internal: { rules: { 'no-direct-finops-service-id': noDirectFinopsServiceId, 'no
 {
   files: ['scripts/mock-server.ts'],
   rules: { 'internal/no-direct-finops-service-id': 'off' },
+}, // Scripts and Node helpers (JS/TS): restrict unsafe child_process usage and shell invocation
+{
+  files: [
+    'scripts/**/*.{js,cjs,mjs,ts}',
+    'packages/**/scripts/**/*.{js,cjs,mjs,ts}',
+    'tests-e2e/**/*.cjs',
+  ],
+  languageOptions: {
+    ecmaVersion: 2022,
+    sourceType: 'script',
+    globals: { process: 'readonly', console: 'readonly', require: 'readonly', module: 'readonly', __dirname: 'readonly' },
+  },
+  rules: {
+    // Forbid shell-based exec; prefer execFile/execFileSync with explicit args
+    'no-restricted-syntax': [
+      'error',
+      { selector: 'CallExpression[callee.name="execSync"]', message: 'Avoid execSync; use execFileSync with explicit args.' },
+      { selector: 'CallExpression[callee.property.name="execSync"]', message: 'Avoid execSync; use execFileSync with explicit args.' },
+  // NOTE: We intentionally do not restrict generic `.exec(...)` calls to avoid false positives (e.g., RegExp#exec).
+      // Avoid invoking shells directly; pass program and args instead
+      { selector: 'CallExpression[callee.name=/^spawn(Sync)?$/][arguments.0.value=/^(bash|sh)$/]', message: 'Avoid spawning shells; run the target binary with args.' },
+      { selector: 'CallExpression[callee.property.name=/^spawn(Sync)?$/][arguments.0.value=/^(bash|sh)$/]', message: 'Avoid spawning shells; run the target binary with args.' },
+      // Avoid shell: true in spawn/spawnSync options
+      { selector: 'CallExpression[callee.name=/^spawn(Sync)?$/] ObjectExpression > Property[key.name="shell"] > Literal[value=true]', message: 'Avoid shell:true; pass program and args to spawn.' },
+      { selector: 'CallExpression[callee.property.name=/^spawn(Sync)?$/] ObjectExpression > Property[key.name="shell"] > Literal[value=true]', message: 'Avoid shell:true; pass program and args to spawn.' },
+    ],
+    // Allow redeclaration of built-in globals (e.g., __dirname shims in ESM scripts)
+    'no-redeclare': ['error', { builtinGlobals: false }],
+  },
 }, // Declaration files: relax unused vars (common for augmentation / public API shape), suppress no-undef noise
 {
   files: ['**/*.d.ts'],

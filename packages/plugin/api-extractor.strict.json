@@ -2,7 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
   "mainEntryPointFilePath": "./dist/index.d.ts",
   "docModel": { "enabled": false },
-  "apiReport": { "enabled": true, "reportFileName": "costscope-backstage-plugin.api.md", "reportFolder": "../../etc", "includeForgottenExports": false },
+  "apiReport": {
+    "enabled": true,
+    "reportFileName": "costscope-backstage-plugin.api.md",
+    "reportFolder": "./etc",
+    "includeForgottenExports": false
+  },
   "dtsRollup": { "enabled": false },
   "tsdocMetadata": { "enabled": false },
   "compiler": { "tsconfigFilePath": "../../tsconfig.types.json" },
@@ -10,7 +15,7 @@
     "extractorMessageReporting": {
       "ae-unresolved-link": { "logLevel": "none" },
       "ae-missing-release-tag": { "logLevel": "warning" },
-      "ae-forgotten-export": { "logLevel": "error" }
+      "ae-forgotten-export": { "logLevel": "error", "addToApiReportFile": false }
     },
     "tsdocMessageReporting": {
       "tsdoc-link-tag-unescaped-text": { "logLevel": "none" },

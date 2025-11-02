@@ -6,7 +6,7 @@
   },
   "apiReport": {
     "enabled": true,
-  "reportFileName": "costscope-backstage-plugin.api.md",
+    "reportFileName": "costscope-backstage-plugin.api.md",
     "reportFolder": "./etc",
     "includeForgottenExports": false
   },
@@ -32,7 +32,8 @@
       "tsdoc-link-tag-unescaped-text": { "logLevel": "none" },
       "tsdoc-malformed-inline-tag": { "logLevel": "none" },
       "tsdoc-escape-right-brace": { "logLevel": "none" },
-      "tsdoc-escape-greater-than": { "logLevel": "none" }
+      "tsdoc-escape-greater-than": { "logLevel": "none" },
+      "tsdoc-undefined-tag": { "logLevel": "none" }
     }
   }
 }

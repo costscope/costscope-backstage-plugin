@@ -8,6 +8,7 @@
  */
 // Avoid importing JSON in type surface to keep API Extractor happy.
 // This constant should reflect package.json version during releases.
+/** @public */
 export const PLUGIN_VERSION = '0.1.1' as const;
 
 // NOTE: Explicit import of the page component to ensure bundlers (tsup + esbuild) retain the symbol.
@@ -87,8 +88,13 @@ export {
 
 // Re-export i18n helpers from the public surface so host apps (examples) can consume translations
 export { I18nProvider, useI18n } from './i18n';
+export type { I18nContextValue } from './i18n';
+// Re-export select contract types referenced in our public type signatures so API Extractor
+// includes them in the entry point and avoids forgotten-export diagnostics.
+export type { paths, components } from '@costscope/contracts';
 
 // Explicit value export for direct component usage in classic Backstage apps
+/** @public */
 export const CostscopePage = _CostscopePage;
 
 // E2E runtime probe: log when this module is evaluated in the browser/runtime.

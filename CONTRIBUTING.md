@@ -44,6 +44,8 @@ tree -L 2 -I 'node_modules|dist'
 
 ## 3. Development Quickstart
 
+Package manager: this monorepo uses Yarn v1 workspaces. npm installs are intentionally unsupported — `package-lock.json` generation is disabled via repo `.npmrc`. Use `yarn` commands shown below; avoid `npm install/ci` to keep installs deterministic.
+
 ```bash
 yarn install              # install dependencies
 yarn lint                 # lint (auto-fix: yarn lint:fix)
@@ -308,7 +310,26 @@ Tips:
 
 For security issues: do not open a public issue with an exploit. Temporarily label an issue as `security` with minimal details; a maintainer will coordinate privately. See `SECURITY.md`.
 
----
+### Security: Safe process execution in scripts
+
+When invoking external commands from Node scripts or tests, avoid shell command strings built from variables or environment values. Prefer argumentized process execution to prevent shell interpretation and code injection risks.
+
+- Do this (safe):
+  - `cp.execFileSync('git', ['show', \`${ref}:${fileRelPath}\`], { stdio: 'pipe' })`
+  - `cp.execFileSync('yarn', ['build'], { stdio: 'inherit' })`
+- Not this (unsafe):
+  - <code>cp.execSync(\`git show \${ref}:\${fileRelPath}\`)</code>
+  - <code>cp.execSync('yarn build')</code>
+
+Additional guidance:
+
+- Do not use `spawn('bash', ['-c', '...'])` or `{ shell: true }`. Invoke the target binary directly with explicit arguments.
+- For pipelines like `lsof -ti :3000 | xargs -r kill -9`, split into two steps:
+  1.  `execFileSync('lsof', ['-ti', ':3000'])` to get PIDs
+  2.  Iterate PIDs and `process.kill(pid, 'SIGKILL')`
+- If you must compose dynamic strings (e.g., for a single `prog:arg` operand like `ref:file` in `git show`), keep it as a single argv entry and do not pass through a shell.
+
+## We lint for these patterns in `scripts/**`, `packages/**/scripts/**`, and `tests-e2e/**`. If lint flags a usage, migrate to `execFile/execFileSync` with explicit args.
 
 ## 13. License
 

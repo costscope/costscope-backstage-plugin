@@ -3,8 +3,8 @@
  * Compare manual zod runtime schemas in api.ts with central validationDescriptor.
  * Fail if the derived descriptor hash differs (prevents silent drift).
  */
-const path = require('path');
 const fs = require('fs');
+const path = require('path');
 
 // Resolve to the plugin package root in the monorepo (packages/plugin),
 // falling back to repo root if that structure doesn't exist.

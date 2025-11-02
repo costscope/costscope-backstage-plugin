@@ -5,14 +5,17 @@ import en from '../locales/en/messages.json';
 // Basic messages map keyed by locale code. Extendable later.
 const MESSAGES: Record<string, Record<string, string>> = { en } as const;
 
+/** @public */
 export interface I18nContextValue {
   t: (key: string, vars?: Record<string, any>) => string;
   locale: string;
   messages: Record<string, string>;
 }
 
+/** @public */
 export const I18nContext = React.createContext<I18nContextValue | undefined>(undefined);
 
+/** @public */
 export const I18nProvider = ({ locale: forcedLocale, messages, children, configApi }: { locale?: string; messages?: Record<string, string>; children: React.ReactNode; configApi?: { getOptionalString(key: string): string | undefined } }) => {
   // Resolve desired locale precedence: explicit prop > configApi > navigator > 'en'
   const detectedNavigator = ((): string | undefined => {
@@ -80,6 +83,7 @@ export const I18nProvider = ({ locale: forcedLocale, messages, children, configA
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 };
 
+/** @public */
 export const useI18n = () => {
   const ctx = React.useContext(I18nContext);
   if (!ctx) {

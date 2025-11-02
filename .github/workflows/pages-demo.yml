@@ -45,6 +45,12 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+      - name: Build packages required for demo
+        run: |
+          # Build workspace packages that the demo depends on so Vite can resolve their dist entries
+          yarn workspace @costscope/contracts build
+          yarn workspace @costscope/backstage-plugin build
+
       - name: Build static demo (mock mode) with repo-relative base
         run: |
           REPO_NAME="${GITHUB_REPOSITORY#*/}"

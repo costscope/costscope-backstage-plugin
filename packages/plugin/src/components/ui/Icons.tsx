@@ -46,6 +46,7 @@ export const WarningAmber = (props: SvgIconProps) => (
   </SvgIcon>
 );
 
+/** @public */
 export const WorkspacePremiumSmall = (props: SvgIconProps) => {
   if (WorkspacePremiumIcon) {
     return <WorkspacePremiumIcon fontSize="small" {...(props as any)} />;
@@ -67,6 +68,7 @@ try {
   GitHubIcon = undefined;
 }
 
+/** @public */
 export const GitHubSmall = (props: SvgIconProps) => {
   if (GitHubIcon) {
     return <GitHubIcon fontSize="small" {...(props as any)} />;

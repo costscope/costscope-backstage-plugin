@@ -6,7 +6,6 @@
  */
 const fs = require('fs');
 const path = require('path');
-const childProcess = require('child_process');
 
 const root = process.cwd();
 const pkgPath = path.join(root, 'package.json');

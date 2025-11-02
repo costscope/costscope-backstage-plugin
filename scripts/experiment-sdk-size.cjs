@@ -5,10 +5,12 @@
  *
  * Output: Markdown report to stdout (copy into PR) and JSON metrics file under tmp.
  */
+const { execFileSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
 const zlib = require('zlib');
+// Note: This script runs in a dev environment. We avoid shell interpolation by always
+// passing arguments as arrays to child_process APIs. Executables are constants.
 
 const root = path.join(__dirname, '..');
 // Use contracts workspace as the single source of truth for the OpenAPI spec
@@ -29,7 +31,13 @@ function formatKB(bytes){ return (bytes/1024).toFixed(2)+' KB'; }
 
 // 1. Generate SDK with openapi-typescript-codegen
 console.log('[exp] generating SDK...');
-execSync(`npx openapi-typescript-codegen --input ${specPath} --output ${outClientDir} --client fetch`, { stdio:'inherit' });
+// codeql[js/shell-command-injection-from-environment]: Executable is a constant and arguments are provided as an array, so there is no shell interpretation of dynamic paths.
+execFileSync('npx', [
+  'openapi-typescript-codegen',
+  '--input', specPath,
+  '--output', outClientDir,
+  '--client', 'fetch',
+], { stdio: 'inherit' });
 
 // 2. Transpile generated TS to JS for size measurement
 const buildDir = path.join(tmpDir, 'build');
@@ -41,7 +49,9 @@ fs.writeFileSync(tsconfigPath, JSON.stringify({ compilerOptions: { target:'ES202
 
 console.log('[exp] transpiling generated SDK (tsc)...');
 try {
-  execSync(`npx tsc -p ${tsconfigPath}`, { cwd: tmpDir, stdio:'pipe' });
+  // Avoid shell by passing args directly
+  // codeql[js/shell-command-injection-from-environment]: Executable is a constant and we do not use the shell; cwd is derived from __dirname controlled by the repo.
+  execFileSync('npx', ['tsc', '-p', tsconfigPath], { cwd: tmpDir, stdio: 'pipe' });
 } catch(e) {
   console.warn('[exp] tsc emitted diagnostics (non-fatal for size experiment)');
 }

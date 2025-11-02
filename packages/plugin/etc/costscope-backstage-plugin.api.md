@@ -76,7 +76,63 @@ export type CacheEvent = {
     ts: number;
 };
 
-// @public
+// @public (undocumented)
+export interface components {
+    // (undocumented)
+    headers: never;
+    // (undocumented)
+    parameters: never;
+    // (undocumented)
+    pathItems: never;
+    // (undocumented)
+    requestBodies: never;
+    // (undocumented)
+    responses: never;
+    // (undocumented)
+    schemas: {
+        Provider: {
+            id: string;
+            displayName: string;
+            status: string;
+            services?: number;
+            lastUpdated?: string;
+        };
+        Dataset: {
+            id: string;
+            provider: string;
+            project: string;
+            status: string;
+            records: number;
+            periodStart: string;
+            periodEnd: string;
+            lastIngestedAt?: string;
+        };
+        CostSummary: {
+            period: string;
+            project: string;
+            totalCost: number;
+            previousTotalCost: number;
+            deltaPct: number;
+            currency: string;
+        };
+        OverviewItem: {
+            date: string;
+            cost: number;
+        };
+        BreakdownRow: {
+            dim: string;
+            cost: number;
+            deltaPct: number;
+        };
+        ActionItem: {
+            id: string;
+            severity: "info" | "warn" | "critical";
+            message: string;
+        };
+    };
+}
+
+// @public (undocumented)
 export const CostDriversCard: ({ period, project, dimension, limit }: CostDriversCardProps) => React_2.JSX.Element;
 
 // @public (undocumented)
@@ -427,7 +483,7 @@ export type DatasetMeta = (paths['/datasets'] extends {
 // @public (undocumented)
 export const DatasetSearchPageLazy: React_2.LazyExoticComponent<() => React_2.JSX.Element>;
 
-// @public (undocumented)
+// @public
 export interface DatasetSearchParams {
     // (undocumented)
     from?: string;
@@ -448,7 +504,7 @@ export interface DatasetSearchParams {
 }
 
 // @public
-export type DatasetSearchRow = (__ContractsPaths['/datasets/search'] extends {
+export type DatasetSearchRow = ((paths & Record<string, any>)['/datasets/search'] extends {
     get: {
         responses: {
             200: {
@@ -503,7 +559,7 @@ export const FormattingProvider: ({ children, currency: overrideCurrency, locale
 export const GitHubSmall: (props: SvgIconProps) => React_3.JSX.Element;
 
 // @public
-export type Healthz = __ContractsPaths['/healthz'] extends {
+export type Healthz = (paths & Record<string, any>)['/healthz'] extends {
     get: {
         responses: {
             200: {
@@ -519,6 +575,16 @@ export type Healthz = __ContractsPaths['/healthz'] extends {
 
 // @public (undocumented)
 export function hydrateFromManifest(queryClient: QueryClient, doc?: Document): CostscopePrefetchManifest | undefined;
+
+// @public (undocumented)
+export interface I18nContextValue {
+    // (undocumented)
+    locale: string;
+    // (undocumented)
+    messages: Record<string, string>;
+    // (undocumented)
+    t: (key: string, vars?: Record<string, any>) => string;
+}
 
 // @public (undocumented)
 export const I18nProvider: ({ locale: forcedLocale, messages, children, configApi }: {
@@ -549,7 +615,231 @@ export type Overview = (paths['/costs/daily'] extends {
     cost: number;
 };
 
-// @public
+// @public (undocumented)
+export interface paths {
+    // (undocumented)
+    "/alerts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ActionItem"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    // (undocumented)
+    "/breakdown": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    by?: string;
+                    period?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["BreakdownRow"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    // (undocumented)
+    "/costs/daily": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    period?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OverviewItem"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    // (undocumented)
+    "/costs/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    period?: string;
+                    project?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["CostSummary"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    // (undocumented)
+    "/datasets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    project?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Dataset"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    // (undocumented)
+    "/providers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Provider"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+}
+
+// @public (undocumented)
 export const PLUGIN_VERSION: "0.1.1";
 
 // @public (undocumented)
@@ -558,8 +848,8 @@ export const PROJECT_ANNOTATION = "costscope.io/project";
 // @public (undocumented)
 export const PROJECT_QUERY_PARAM = "project";
 
-// @public (undocumented)
-export type ProviderInfo = (__ContractsPaths['/providers'] extends {
+// @public
+export type ProviderInfo = (paths['/providers'] extends {
     get: {
         responses: {
             200: {

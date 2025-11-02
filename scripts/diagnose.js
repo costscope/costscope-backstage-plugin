@@ -12,14 +12,12 @@
  *
  * Runs safely even if build artifacts are missing (falls back to source parsing).
  */
+const cp = require('child_process');
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
-const cp = require('child_process');
 
-function safeExec(cmd) {
-  try { return cp.execSync(cmd, { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim(); } catch { return 'unavailable'; }
-}
+// Note: Avoid shell-based exec helpers; prefer execFileSync with explicit args when needed.
 
 function short(h) { return h ? h.slice(0, 12) : ''; }
 
@@ -29,7 +27,6 @@ let contractsVersion = 'unknown';
 let specFileHash = '';
 let specFilePath = '';
 try {
-  // eslint-disable-next-line import/no-extraneous-dependencies, @typescript-eslint/no-var-requires
   const contracts = require('@costscope/contracts');
   if (contracts && typeof contracts.OPENAPI_SPEC_HASH === 'string') specHash = contracts.OPENAPI_SPEC_HASH;
   const contractsPkgPath = require.resolve('@costscope/contracts/package.json');
@@ -67,7 +64,6 @@ for (const p of candidateSpecs) {
 let validationDescriptorHash = '';
 try {
   // Try requiring compiled file (after build) – may fail in pure TS state.
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const vd = require('../dist/validationDescriptor');
   if (vd && typeof vd.VALIDATION_DESCRIPTOR_HASH === 'string') validationDescriptorHash = vd.VALIDATION_DESCRIPTOR_HASH;
 } catch {
@@ -81,7 +77,6 @@ try {
       if (objMatch) {
         const literal = objMatch[1];
         // Unsafe eval in isolated context to obtain object (trusted repo source)
-        // eslint-disable-next-line no-new-func
         const desc = Function(`"use strict"; return (${literal});`)();
         const json = JSON.stringify(desc);
         // djb2 identical to computeValidationDescriptorHash
@@ -103,7 +98,12 @@ const pkgPath = path.join(__dirname, '..', 'package.json');
 let pluginVersion = 'unknown';
 try { pluginVersion = JSON.parse(fs.readFileSync(pkgPath, 'utf8')).version; } catch { /* ignore */ }
 
-const yarnVersion = safeExec('yarn --version');
+let yarnVersion = 'unavailable';
+try {
+  yarnVersion = cp.execFileSync('yarn', ['--version'], { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+} catch {
+  // keep 'unavailable'
+}
 
 const report = {
   environment: {
