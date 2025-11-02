@@ -21,6 +21,7 @@
     "format": "prettier --write .",
     "typecheck": "yarn workspace @costscope/backstage-plugin typecheck",
     "build": "yarn workspace @costscope/backstage-plugin build",
+    "build:size": "yarn workspace @costscope/backstage-plugin build:size",
     "lint:all": "yarn workspaces foreach -pv run lint || true",
     "typecheck:all": "yarn workspaces foreach -pv run typecheck || true",
     "build:watch": "yarn workspace @costscope/backstage-plugin build:watch",

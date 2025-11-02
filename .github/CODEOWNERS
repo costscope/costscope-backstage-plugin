@@ -5,8 +5,8 @@
 # Documentation: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 
 # Global default owners (fallback)
-
--       @dev404ai
+# All files default to the following owner(s)
+* @dev404ai
 
 # Source code (plugin)
 
@@ -22,7 +22,7 @@
 
 # Documentation & markdown
 
-/\*.md @dev404ai
+*.md @dev404ai
 /docs/ @dev404ai
 
 # CI workflows (add when workflows exist)

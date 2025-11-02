@@ -121,10 +121,11 @@ module.exports = async () => {
 
   function spawnWorkspaceApp(args, opts = {}) {
     if (useMinimal) {
-      // Start minimal app via custom dev server to minimize dependencies and avoid Vite bundling quirks
-      return spawn('node', ['dev-server.cjs'], {
-        cwd: minimalRoot,
-        env: opts.env || { ...envBase, PORT: '3000' },
+      // Start minimal app via Vite dev server for reliable ESM bundling (avoids CJS/ESM interop issues)
+      // Keep browser closed and ensure port is 3000 to match CORS defaults in mock server
+      return spawn('yarn', ['workspace', '@examples/minimal-app', 'start'], {
+        cwd: repoRoot,
+        env: opts.env || { ...envBase, BROWSER: 'none', PORT: '3000' },
         stdio: opts.stdio || ['ignore', 'pipe', 'pipe'],
       });
     }

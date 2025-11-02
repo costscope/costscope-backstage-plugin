@@ -1,0 +1,59 @@
+name: Branch protection guard
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/branch-protection-check.yml
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    if: ${{ github.actor != 'nektos/act' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+
+      - name: Verify branch protection on main
+        id: verify
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          echo "Checking branch protection for $REPO main..."
+          # Try to fetch branch protection; will exit non-zero if missing or insufficient perms
+          output=$(gh api -H "Accept: application/vnd.github+json" \
+            "/repos/$REPO/branches/main/protection" 2>/dev/null || true)
+          if [ -z "$output" ]; then
+            echo "protected=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Could not read branch protection (missing protection or insufficient permissions)." 
+            exit 0
+          fi
+          echo "$output" | jq '.' > protection.json
+          protected=true
+
+          req_reviews=$(jq -r '.required_pull_request_reviews != null' protection.json)
+          req_checks=$(jq -r '.required_status_checks != null' protection.json)
+          admins=$(jq -r '.enforce_admins.enabled // false' protection.json)
+
+          echo "required_reviews=$req_reviews" >> "$GITHUB_OUTPUT"
+          echo "required_status_checks=$req_checks" >> "$GITHUB_OUTPUT"
+          echo "enforce_admins=$admins" >> "$GITHUB_OUTPUT"
+          echo "protected=$protected" >> "$GITHUB_OUTPUT"
+
+          echo "### Branch protection status" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Protection readable: $protected" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Required PR reviews: $req_reviews" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Required status checks: $req_checks" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Enforce admins: $admins" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail if protections not enforced
+        if: ${{ steps.verify.outputs.protected == 'true' && (steps.verify.outputs.required_reviews != 'true' || steps.verify.outputs.required_status_checks != 'true' || steps.verify.outputs.enforce_admins != 'true') }}
+        run: |
+          echo "Branch protection exists but is missing one or more required settings (reviews, status checks, enforce admins)." >&2
+          exit 1

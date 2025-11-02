@@ -1,14 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import {
-  CostscopePage,
-  costscopeApiRef,
-  createCostscopeClient,
-  PLUGIN_VERSION,
-} from '@costscope/backstage-plugin';
-import { createMockCostscopeApi } from './mockClient';
 import {
   discoveryApiRef,
   fetchApiRef,
@@ -19,31 +12,32 @@ import {
   featureFlagsApiRef,
 } from '@backstage/core-plugin-api';
 import { ApiProvider, LocalStorageFeatureFlags } from '@backstage/core-app-api';
+import { CostscopePage, costscopeApiRef, createCostscopeClient } from '@costscope/backstage-plugin';
 
 // Provide minimal Backstage API stubs just enough for the plugin.
 const staticDiscovery = {
   getBaseUrl: async (id) => (id === 'costscope' ? 'http://localhost:7007/api/costscope' : ''),
 };
-const identityApi = { getUserId: async () => 'user', getProfileInfo: async () => ({}) };
+const identityApi = {
+  getUserId: async () => 'user',
+  getProfileInfo: async () => ({}),
+  getCredentials: async () => ({ token: undefined }),
+};
 const fetchApi = { fetch: (input, init) => fetch(input, init) };
 const alertApi = { post: () => {} };
 const errorApi = { post: () => {} };
 const configApi = { getOptionalString: () => undefined };
-const featureFlagsApi = new LocalStorageFeatureFlags();
 
-// Choose between real client and in-browser mock for static deployments (e.g., GitHub Pages)
-const DEMO_MODE = import.meta.env?.VITE_DEMO_MODE || 'real';
-const client =
-  DEMO_MODE === 'mock'
-    ? createMockCostscopeApi()
-    : createCostscopeClient(configApi, {
-        discoveryApi: staticDiscovery,
-        fetchApi,
-        identityApi,
-        alertApi,
-        errorApi,
-      });
-// Provide API implementations via a minimal ApiHolder compatible object (Backstage expects a .get(ApiRef) method)
+const client = createCostscopeClient(configApi, {
+  discoveryApi: staticDiscovery,
+  fetchApi,
+  identityApi,
+  alertApi,
+  errorApi,
+});
+
+// Minimal ApiHolder compatible with ApiProvider
+const featureFlagsApi = new LocalStorageFeatureFlags();
 const apiPairs = [
   [costscopeApiRef, client],
   [discoveryApiRef, staticDiscovery],
@@ -59,35 +53,40 @@ const apis = { get: ref => apiImplsById.get(ref.id) };
 
 const queryClient = new QueryClient();
 
-function App() {
+function EnsureProject({ children }) {
+  const loc = useLocation();
+  const nav = useNavigate();
   React.useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.debug(
-      '[costscope-backstage-plugin] mounted minimal app, plugin version',
-      PLUGIN_VERSION,
-    );
-  }, []);
+    const url = new URL(loc.pathname + loc.search, 'http://localhost');
+    if (loc.pathname === '/costscope' && !url.searchParams.has('project')) {
+      url.searchParams.set('project', 'demo');
+      nav(`${url.pathname}${url.search}`, { replace: true });
+    }
+  }, [loc.pathname, loc.search, nav]);
+  return children;
+}
+
+function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ApiProvider apis={apis}>
-        {/* Use Vite-provided BASE_URL so the app works under GitHub Pages subpath */}
         <BrowserRouter basename={import.meta.env.BASE_URL}>
           <Routes>
-            {/* Redirect root to the plugin route so index path works on Pages */}
             <Route path="/" element={<Navigate to="/costscope" replace />} />
-            {/* Catch-all to handle deep links and unknown paths under the basename */}
             <Route path="*" element={<Navigate to="/costscope" replace />} />
             <Route
               path="/costscope"
               element={
-                <div data-testid="costscope-page-root">
-                  <CostscopePage />
+                <div data-testid="costscope-page-wrapper">
+                  <EnsureProject>
+                    <CostscopePage />
+                  </EnsureProject>
                 </div>
               }
             />
           </Routes>
         </BrowserRouter>
-      </ApiProvider>
+  </ApiProvider>
     </QueryClientProvider>
   );
 }

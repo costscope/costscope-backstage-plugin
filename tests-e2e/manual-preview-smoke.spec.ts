@@ -10,6 +10,13 @@ test.describe('Manual preview smoke (@smoke)', () => {
     if (!PREVIEW_BASE) {
       test.skip(true, 'PREVIEW_BASE not provided');
     }
+    // Skip if preview host is not reachable in this environment
+    try {
+      const res = await fetch(PREVIEW_BASE, { method: 'GET' });
+      if (!res.ok) test.skip(true, `Preview base not reachable: ${PREVIEW_BASE}`);
+    } catch {
+      test.skip(true, `Preview base not reachable: ${PREVIEW_BASE}`);
+    }
   });
 
   test('@smoke loads minimal app costscope page and renders breakdown table', async ({ page }) => {

@@ -55,3 +55,31 @@ If you require encrypted communication, request our temporary PGP key in your in
 We plan to acknowledge first responsible reporters (opt‑in) once the project is public.
 
 Thank you for helping keep the Costscope ecosystem safe.
+
+## Project hardening (for maintainers)
+
+The repository is continuously checked by OpenSSF Scorecard. To keep key checks green, ensure the following settings are enabled in GitHub repository settings (Manage access required):
+
+- Main branch protection enabled, with:
+	- Require pull request reviews (≥1) before merging
+	- Require status checks to pass before merging (CI, typecheck, tests, size-limit, API checks)
+	- Include administrators (enforce for admins)
+	- Disallow force pushes and branch deletions
+- Code reviews are the default path to merge; avoid direct pushes to main.
+- Fuzzing: evaluate ClusterFuzzLite or equivalent for critical parsing/validation code.
+- Dependencies: keep Dependabot enabled for npm and GitHub Actions updates; triage nightly audit issues.
+
+A lightweight workflow (`.github/workflows/branch-protection-check.yml`) validates branch protection and surfaces a summary on its runs. It cannot apply settings automatically; use the GitHub UI or API to enable them. Example using GitHub CLI:
+
+```
+gh api \
+	-X PUT \
+	-H "Accept: application/vnd.github+json" \
+	"/repos:<owner>/<repo>/branches/main/protection" \
+	-f required_status_checks='{"strict":true,"checks":[]}' \
+	-f enforce_admins=true \
+	-f required_pull_request_reviews='{"required_approving_review_count":1}' \
+	-f restrictions='null'
+```
+
+OpenSSF Best Practices badge: enroll the project at https://www.bestpractices.dev/ and add the badge to README once approved.

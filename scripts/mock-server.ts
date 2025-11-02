@@ -45,7 +45,7 @@ app.use(
 );
 app.use(express.json());
 
-app.use((req, _res, next) => {
+app.use((req, res, next) => {
   // Allow simple latency simulation (bounded to prevent resource exhaustion)
   const MAX_DELAY_MS = 5000; // cap delay to 5s to avoid unbounded timers
   const parseNum = (v: unknown): number | undefined => {
@@ -57,7 +57,9 @@ app.use((req, _res, next) => {
   const requested = (delayParam ?? envLatency ?? 0) as number;
   const latency = Math.max(0, Math.min(MAX_DELAY_MS, requested));
   if (latency > 0) {
-    setTimeout(next, latency);
+    const t = setTimeout(next, latency);
+    // Clear the timer if the client disconnects early to avoid piling timers.
+    res.on('close', () => clearTimeout(t));
   } else {
     next();
   }

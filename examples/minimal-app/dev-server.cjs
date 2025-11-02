@@ -30,16 +30,7 @@ async function buildOnce() {
     target: ['es2022'],
   mainFields: ['module', 'browser', 'main'],
   conditions: ['browser', 'import', 'module', 'development'],
-  // Workaround: esbuild occasionally grabs the Node (CJS) /utils entry which then triggers
-  // a dynamic require path not supported in ESM-only browser bundle. Mark utils (and any
-  // node/* subpath) external so the runtime resolves the proper browser/ESM variant from
-  // the installed package rather than our transformed version. This avoids the
-  // "Dynamic require of '@mui/material/utils'" and interop helper errors observed in the
-  // minimal app environment.
-    external: [
-      '@mui/material/utils',
-      '@mui/material/node/*',
-    ],
+    // Keep everything bundled; we'll alias problematic modules to their ESM variants below.
     write: false,
     logLevel: 'silent',
     loader: {
@@ -55,15 +46,26 @@ async function buildOnce() {
       {
         name: 'mui-esm-alias',
         setup(build) {
-          const map = new Map([
-            ['@mui/system', require.resolve('@mui/system/esm/index.js')],
-            ['@mui/utils', require.resolve('@mui/utils/esm/index.js')],
-            ['@mui/system/createStyled', require.resolve('@mui/system/esm/createStyled.js')],
-          ]);
-          build.onResolve({ filter: /^@mui\/(system|utils)(\/createStyled)?$/ }, args => {
-            const target = map.get(args.path);
-            if (target) return { path: target };
-            return null;
+          const path = require('path');
+          const systemDir = path.dirname(require.resolve('@mui/system/package.json'));
+          const utilsDir = path.dirname(require.resolve('@mui/utils/package.json'));
+          const materialDir = path.dirname(require.resolve('@mui/material/package.json'));
+
+          // Helper to resolve subpaths to their ESM counterparts
+          const resolveMUI = (pkgDir, subpath) => {
+            // Direct root import -> esm/index.js
+            if (!subpath) return path.join(pkgDir, 'esm/index.js');
+            // Subpath -> esm/<subpath>[.js]
+            const withJs = subpath.endsWith('.js') ? subpath : `${subpath}.js`;
+            return path.join(pkgDir, 'esm', withJs);
+          };
+
+          build.onResolve({ filter: /^@mui\/(system|utils|material)(?:\/(.*))?$/ }, args => {
+            const [, which, sub] = args.path.match(/^@mui\/(system|utils|material)(?:\/(.*))?$/) || [];
+            if (!which) return null;
+            const base = which === 'system' ? systemDir : which === 'utils' ? utilsDir : materialDir;
+            const target = resolveMUI(base, sub);
+            return { path: target };
           });
         },
       },
@@ -77,7 +79,16 @@ app.get('/app.js', async (_req, res) => {
     const code = await buildOnce();
     res.type('application/javascript').send(code);
   } catch (e) {
-    res.status(500).type('text/plain').send('Build error: ' + e.message);
+    // Log full error details to the server console for easier debugging
+    // without requiring curl to display the body
+    console.error('[minimal-app] Build error', e && e.message ? e.message : e);
+    if (e && e.stack) {
+      console.error(e.stack);
+    }
+    if (e && e.errors) {
+      console.error('[minimal-app] esbuild errors:', e.errors);
+    }
+    res.status(500).type('text/plain').send('Build error: ' + (e && e.message ? e.message : String(e)));
   }
 });
 

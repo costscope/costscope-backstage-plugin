@@ -5,20 +5,26 @@ import {
   alertApiRef,
   errorApiRef,
   configApiRef,
+  featureFlagsApiRef,
 } from '@backstage/core-plugin-api';
-import { createVersionedContext, createVersionedValueMap } from '@backstage/version-bridge';
+import { ApiProvider, LocalStorageFeatureFlags } from '@backstage/core-app-api';
 import { CostscopePage, costscopeApiRef, createCostscopeClient } from '@costscope/backstage-plugin';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 // Provide minimal Backstage API stubs just enough for the plugin.
 // eslint-disable-next-line
 const staticDiscovery = {
   getBaseUrl: async (id) => (id === 'costscope' ? 'http://localhost:7007/api/costscope' : ''),
 };
-const identityApi = { getUserId: async () => 'user', getProfileInfo: async () => ({}) };
+const identityApi = {
+  getUserId: async () => 'user',
+  getProfileInfo: async () => ({}),
+  // Some transports expect getCredentials to exist (token optional)
+  getCredentials: async () => ({ token: undefined }),
+};
 const fetchApi = { fetch: (input, init) => fetch(input, init) };
 const alertApi = { post: () => {} };
 const errorApi = { post: () => {} };
@@ -31,8 +37,9 @@ const client = createCostscopeClient(configApi, {
   alertApi,
   errorApi,
 });
-// Minimal API holder map
-const apiMap = new Map([
+// Minimal ApiHolder compatible with ApiProvider
+const featureFlagsApi = new LocalStorageFeatureFlags();
+const apiPairs = [
   [costscopeApiRef, client],
   [discoveryApiRef, staticDiscovery],
   [fetchApiRef, fetchApi],
@@ -40,37 +47,47 @@ const apiMap = new Map([
   [alertApiRef, alertApi],
   [errorApiRef, errorApi],
   [configApiRef, configApi],
-]);
-
-// Create versioned api context provider compatible with useApi
-const ApiContext = createVersionedContext('api-context');
-function MinimalApiProvider({ children }) {
-  const value = React.useMemo(
-    () => createVersionedValueMap({ 1: { get: (ref) => apiMap.get(ref) } }),
-    [],
-  );
-  return <ApiContext.Provider value={value}>{children}</ApiContext.Provider>;
-}
+  [featureFlagsApiRef, featureFlagsApi],
+];
+const apiImplsById = new Map(apiPairs.map(([ref, impl]) => [ref.id, impl]));
+const apis = { get: (ref) => apiImplsById.get(ref.id) };
 
 const queryClient = new QueryClient();
+
+function EnsureProject({ children }) {
+  const loc = useLocation();
+  const nav = useNavigate();
+  React.useEffect(() => {
+    const url = new URL(loc.pathname + loc.search, 'http://localhost');
+    if (loc.pathname === '/costscope' && !url.searchParams.has('project')) {
+      url.searchParams.set('project', 'demo');
+      nav(`${url.pathname}${url.search}`, { replace: true });
+    }
+  }, [loc.pathname, loc.search, nav]);
+  return children;
+}
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <MinimalApiProvider>
-        <BrowserRouter>
+      <ApiProvider apis={apis}>
+        <BrowserRouter basename={import.meta.env.BASE_URL}>
           <Routes>
+            <Route path="/" element={<Navigate to="/costscope" replace />} />
+            <Route path="*" element={<Navigate to="/costscope" replace />} />
             <Route
               path="/costscope"
               element={
-                <div data-testid="costscope-page-root">
-                  <CostscopePage />
+                <div data-testid="costscope-page-wrapper">
+                  <EnsureProject>
+                    <CostscopePage />
+                  </EnsureProject>
                 </div>
               }
             />
           </Routes>
         </BrowserRouter>
-      </MinimalApiProvider>
+      </ApiProvider>
     </QueryClientProvider>
   );
 }
