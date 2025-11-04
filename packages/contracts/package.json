@@ -37,7 +37,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "openapi-typescript": "^7.4.0",
+    "openapi-typescript": "^7.10.1",
     "openapi-zod-client": "^1.18.3",
     "rimraf": "^5.0.5",
     "typescript": "~5.4.0",
