@@ -18,7 +18,7 @@
     "react-router-dom": "6.23.0",
     "recharts": "^2.15.4",
     "@costscope/backstage-plugin": "0.1.1",
-    "@tanstack/react-query": "^5.56.2"
+    "@tanstack/react-query": "^5.90.6"
   },
   "devDependencies": {
     "@backstage/cli": "^0.27.0"
