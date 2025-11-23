@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "description": "Isolated minimal host app for @costscope/backstage-plugin E2E & sandbox (no full Backstage deps)",
   "dependencies": {
-    "@backstage/core-app-api": "^1.14.0",
-    "@backstage/core-plugin-api": "^1.10.9",
+    "@backstage/core-app-api": "^1.19.2",
+    "@backstage/core-plugin-api": "^1.12.0",
     "@backstage/version-bridge": "^1.0.7",
     "@costscope/backstage-plugin": "0.1.1",
     "@mui/material": "5.15.14",
