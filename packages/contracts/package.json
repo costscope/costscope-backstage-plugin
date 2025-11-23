@@ -40,7 +40,7 @@
     "openapi-typescript": "^7.10.1",
     "openapi-zod-client": "^1.18.3",
     "rimraf": "^5.0.5",
-    "typescript": "~5.4.0",
+    "typescript": "~5.9.3",
     "ts-node": "^10.9.2"
   }
 }
