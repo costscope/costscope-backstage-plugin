@@ -3705,15 +3705,15 @@
   resolved "https://registry.npmjs.org/@spotify/eslint-config-typescript/-/eslint-config-typescript-15.0.0.tgz"
   integrity sha512-70nKh2v6So0MddkEfKj4xgAcqs1VmR0AS2yb62XYetZ1Ep3AmhYDl/5CYtU5pbAQS4zCap8rd/EYdmVEHXiS6g==
 
-"@storybook/addon-docs@^10.0.1":
-  version "10.0.1"
-  resolved "https://registry.npmjs.org/@storybook/addon-docs/-/addon-docs-10.0.1.tgz"
-  integrity sha512-xGbRcVItKtRBXRwdrLndO9JYa9Bv6Go/W9l6hLm1zT2v8L/HEPoUXYT3oQaRbfBf/XWOj7Nn5HyDGijQ3BuzpQ==
+"@storybook/addon-docs@^10.0.8":
+  version "10.0.8"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-docs/-/addon-docs-10.0.8.tgz#0a45db23d324cefc0c54552447886a6e78d6d918"
+  integrity sha512-PYuaGXGycsamK/7OrFoE4syHGy22mdqqArl67cfosRwmRxZEI9ManQK0jTjNQM9ZX14NpThMOSWNGoWLckkxog==
   dependencies:
     "@mdx-js/react" "^3.0.0"
-    "@storybook/csf-plugin" "10.0.1"
+    "@storybook/csf-plugin" "10.0.8"
     "@storybook/icons" "^1.6.0"
-    "@storybook/react-dom-shim" "10.0.1"
+    "@storybook/react-dom-shim" "10.0.8"
     react "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
     react-dom "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
     ts-dedent "^2.0.0"
@@ -3746,10 +3746,10 @@
   dependencies:
     ts-dedent "^2.0.0"
 
-"@storybook/csf-plugin@10.0.1":
-  version "10.0.1"
-  resolved "https://registry.npmjs.org/@storybook/csf-plugin/-/csf-plugin-10.0.1.tgz"
-  integrity sha512-THd6faQGGyT19G+lu5lbegGGTaTjs+kaUi2nX11yrwjTSnL1HL5AAfmJSsGJ6wK0rzK/Nv7ray46z3lUq3BYRw==
+"@storybook/csf-plugin@10.0.8":
+  version "10.0.8"
+  resolved "https://registry.yarnpkg.com/@storybook/csf-plugin/-/csf-plugin-10.0.8.tgz#ed5e41c7c963770ff97209728ea5e5495d08a1bc"
+  integrity sha512-OtLUWHIm3SDGtclQn6Mdd/YsWizLBgdEBRAdekGtwI/TvICfT7gpWYIycP53v2t9ufu2MIXjsxtV2maZKs8sZg==
   dependencies:
     unplugin "^2.3.5"
 
@@ -3795,6 +3795,11 @@
   version "10.0.1"
   resolved "https://registry.npmjs.org/@storybook/react-dom-shim/-/react-dom-shim-10.0.1.tgz"
   integrity sha512-fK6SLWKK0wsnBVRAjWwf+T7cMHXdgQ34Xk18QeAAXWJyT8UAb7x1QwdepOWBG2Gs2hVjJjD5ky/sRzK1L3kA9A==
+
+"@storybook/react-dom-shim@10.0.8":
+  version "10.0.8"
+  resolved "https://registry.yarnpkg.com/@storybook/react-dom-shim/-/react-dom-shim-10.0.8.tgz#9f5a430f64fa4f9aa29626bfe7bb4461767cf85e"
+  integrity sha512-ojuH22MB9Sz6rWbhTmC5IErZr0ZADbZijtPteUdydezY7scORT00UtbNoBcG0V6iVjdChgDtSKw2KHUUfchKqg==
 
 "@storybook/react-webpack5@^10.0.1":
   version "10.0.1"
