@@ -113,7 +113,7 @@
     "@typescript-eslint/parser": "^8.46.3",
     "@zodios/core": "^10.9.6",
     "babel-loader": "^10.0.0",
-    "chromatic": "^11.0.0",
+    "chromatic": "^13.3.4",
     "cors": "^2.8.5",
     "esbuild": "^0.21.0",
     "eslint": "^9.0.0",
