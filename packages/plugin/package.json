@@ -134,7 +134,7 @@
     "size-limit": "^11.1.4",
     "storybook": "^10.0.1",
     "supertest": "^6.3.4",
-    "ts-jest": "^29.1.2",
+    "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
     "tsup": "^8.0.0",
     "typescript": "5.9.3",
