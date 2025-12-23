@@ -65,7 +65,7 @@ jobs:
 
       - name: Create Pull Request
         if: steps.diff.outputs.changed == 'true' && steps.pr_exists.outputs.exists != 'true'
-        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676
+        uses: peter-evans/create-pull-request@98357b18bf14b5342f975ff684046ec3b2a07725
         with:
           commit-message: "chore(examples): sync plugin version in example apps"
           title: "chore(examples): sync plugin version in example apps"
